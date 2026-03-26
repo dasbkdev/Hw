@@ -1,11 +1,10 @@
-package kg.attractor.jobsearch.model;
+package homework.jobsearch.model;
 
-import kg.attractor.jobsearch.model.enums.Role;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
 
 @Data
 @NoArgsConstructor
@@ -14,10 +13,11 @@ import lombok.AccessLevel;
 public class User {
     Long id;
     String name;
+    String surname;
+    Integer age;
     String email;
-    String phoneNumber;
     String password;
+    String phoneNumber;
     String avatar;
-    Role role;
-    Boolean enabled;
+    String accountType;
 }

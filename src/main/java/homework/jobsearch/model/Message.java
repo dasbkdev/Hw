@@ -1,10 +1,10 @@
-package kg.attractor.jobsearch.model;
+package homework.jobsearch.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
 
 import java.time.LocalDateTime;
 
@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Message {
     Long id;
-    Long responseId;
-    Long senderId;
-    String text;
-    LocalDateTime createdDate;
+    Long respondedApplicants;
+    String content;
+    LocalDateTime timestamp;
 }

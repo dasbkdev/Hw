@@ -1,10 +1,10 @@
-package kg.attractor.jobsearch.model;
+package homework.jobsearch.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
 
 @Data
 @NoArgsConstructor
@@ -13,4 +13,5 @@ import lombok.AccessLevel;
 public class Category {
     Long id;
     String name;
+    Long parentId;
 }

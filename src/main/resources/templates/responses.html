@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Responses</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1>Отклики</h1>
+
+    <div class="cards">
+        <div class="card" th:each="response : ${responses}">
+            <p>ID отклика: <span th:text="${response.id}"></span></p>
+            <p>ID резюме: <span th:text="${response.resumeId}"></span></p>
+            <p>Подтверждение: <span th:text="${response.confirmation}"></span></p>
+            <a th:href="@{'/chat/' + ${response.id}}">Открыть чат</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

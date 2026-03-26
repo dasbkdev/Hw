@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1>Чат по отклику <span th:text="${responseId}"></span></h1>
+
+    <div class="chat-box">
+        <div class="message" th:each="message : ${messages}">
+            <p th:text="${message.content}"></p>
+            <small th:text="${message.timestamp}"></small>
+        </div>
+    </div>
+</div>
+</body>
+</html>

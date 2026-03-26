@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
+
+.container {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #1f4b99;
+    font-weight: bold;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.card a {
+    color: #1f4b99;
+    text-decoration: none;
+}
+
+.filter-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filter-form select,
+.filter-form button {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.profile-box {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #1f4b99;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.chat-box {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.message {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}

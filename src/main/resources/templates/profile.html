@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${user != null}">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1>Профиль</h1>
+
+    <div class="profile-box">
+        <p>Имя: <span th:text="${user.name}"></span></p>
+        <p>Фамилия: <span th:text="${user.surname}"></span></p>
+        <p>Email: <span th:text="${user.email}"></span></p>
+        <p>Телефон: <span th:text="${user.phoneNumber}"></span></p>
+        <p>Тип аккаунта: <span th:text="${user.accountType}"></span></p>
+    </div>
+
+    <h2>Мои резюме</h2>
+
+    <div class="cards">
+        <div class="card" th:each="resume : ${resumes}">
+            <h3 th:text="${resume.name}"></h3>
+            <p>Зарплата: <span th:text="${resume.salary}"></span></p>
+            <a th:href="@{'/resumes/' + ${resume.id}}">Открыть</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

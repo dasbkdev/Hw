@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vacancy details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${vacancy != null}">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1 th:text="${vacancy.name}"></h1>
+    <p th:text="${vacancy.description}"></p>
+    <p>Зарплата: <span th:text="${vacancy.salary}"></span></p>
+    <p>Опыт от: <span th:text="${vacancy.expFrom}"></span></p>
+    <p>Опыт до: <span th:text="${vacancy.expTo}"></span></p>
+    <p>Дата публикации: <span th:text="${vacancy.createdDate}"></span></p>
+
+    <a class="btn" href="/profile">Откликнуться</a>
+</div>
+</body>
+</html>

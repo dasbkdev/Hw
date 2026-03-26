@@ -1,20 +1,16 @@
 package homework.jobsearch.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Education {
+public class ContactType {
     Long id;
-    Long resumeId;
-    String placeName;
-    String programName;
-    Integer startYear;
-    Integer endYear;
+    String type;
 }

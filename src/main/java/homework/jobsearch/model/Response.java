@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.model;
+package homework.jobsearch.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

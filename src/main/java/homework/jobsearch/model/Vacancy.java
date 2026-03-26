@@ -1,11 +1,12 @@
-package kg.attractor.jobsearch.model;
+package homework.jobsearch.model;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.AccessLevel;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,14 +15,14 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Vacancy {
     Long id;
-    Long userId;
-    Long categoryId;
     String name;
     String description;
-    String salary;
-    Integer experienceFrom;
-    Integer experienceTo;
-    Boolean active;
+    Long categoryId;
+    BigDecimal salary;
+    Integer expFrom;
+    Integer expTo;
+    Boolean isActive;
+    Long authorId;
     LocalDateTime createdDate;
     LocalDateTime updateTime;
 }

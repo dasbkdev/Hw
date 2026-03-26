@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${resume != null}">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1 th:text="${resume.name}"></h1>
+    <p>Зарплата: <span th:text="${resume.salary}"></span></p>
+    <p>Создано: <span th:text="${resume.createdDate}"></span></p>
+    <p>Обновлено: <span th:text="${resume.updateTime}"></span></p>
+</div>
+</body>
+</html>

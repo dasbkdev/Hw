@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/vacancies">Вакансии</a>
+        <a href="/resumes">Резюме</a>
+        <a href="/profile">Профиль</a>
+    </div>
+
+    <h1>Все резюме</h1>
+
+    <form method="get" action="/resumes" class="filter-form">
+        <select name="categoryId">
+            <option value="">Все категории</option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <button type="submit">Фильтр</button>
+    </form>
+
+    <div class="cards">
+        <div class="card" th:each="resume : ${resumes}">
+            <h3>
+                <a th:href="@{'/resumes/' + ${resume.id}}" th:text="${resume.name}"></a>
+            </h3>
+            <p>Зарплата: <span th:text="${resume.salary}"></span></p>
+            <p>Обновлено: <span th:text="${resume.updateTime}"></span></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
