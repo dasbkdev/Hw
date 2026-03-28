@@ -1,12 +1,16 @@
 package homework.jobsearch.controller;
 
+import homework.jobsearch.dto.ResumeDto;
 import homework.jobsearch.service.CategoryService;
 import homework.jobsearch.service.ResumeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -38,4 +42,22 @@ public class ResumeController {
         return "my-resumes";
     }
 
+    @GetMapping("/resumes/create")
+    public String createResumeForm(Model model) {
+        model.addAttribute("resumeDto", new ResumeDto());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "create-resume";
+    }
+
+    @PostMapping("/resumes/create")
+    public String createResume(@Valid ResumeDto dto,
+                               BindingResult bindingResult,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "create-resume";
+        }
+        resumeService.save(dto, 2L);
+        return "redirect:/my-resumes";
+    }
 }

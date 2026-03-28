@@ -1,5 +1,6 @@
 package homework.jobsearch.controller;
 
+import homework.jobsearch.model.User;
 import homework.jobsearch.service.ResumeService;
 import homework.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,14 @@ public class ProfileController {
     private final ResumeService resumeService;
 
     @GetMapping("/profile")
-    public String profile(Model model) {
-        model.addAttribute("user", userService.getUserById(2L).orElse(null));
-        model.addAttribute("resumes", resumeService.getResumesByApplicantId(2L));
+    public String profile(String email, Model model) {
+        User user = userService.getUserByEmail(email).orElse(null);
+        model.addAttribute("user", user);
+
+        if (user != null && "APPLICANT".equals(user.getAccountType())) {
+            model.addAttribute("resumes", resumeService.getResumesByApplicantId(user.getId()));
+        }
+
         return "profile";
     }
 }

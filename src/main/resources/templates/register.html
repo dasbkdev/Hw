@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Регистрация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
 
+    <h1>Регистрация</h1>
+
+    <form method="post" th:action="@{/register}" th:object="${registerDto}">
+        <input type="text" th:field="*{name}" placeholder="Имя">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <input type="text" th:field="*{surname}" placeholder="Фамилия">
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+
+        <input type="number" th:field="*{age}" placeholder="Возраст">
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+        <input type="email" th:field="*{email}" placeholder="Email">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <input type="text" th:field="*{phoneNumber}" placeholder="Телефон">
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+        <input type="password" th:field="*{password}" placeholder="Пароль">
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+        <select th:field="*{accountType}">
+            <option value="APPLICANT">APPLICANT</option>
+            <option value="EMPLOYER">EMPLOYER</option>
+        </select>
+        <div th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}"></div>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/login}">Уже есть аккаунт</a>
+    </div>
+</div>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Создать вакансию</title>
+    <title>Создать резюме</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -20,14 +20,11 @@
         <a th:href="@{/login}">Вход</a>
     </div>
 
-    <h1>Создать вакансию</h1>
+    <h1>Создать резюме</h1>
 
-    <form method="post" th:action="@{/vacancies/create}" th:object="${vacancyDto}">
+    <form method="post" th:action="@{/resumes/create}" th:object="${resumeDto}">
         <input type="text" th:field="*{name}" placeholder="Название">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-
-        <textarea th:field="*{description}" placeholder="Описание"></textarea>
-        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 
         <select th:field="*{categoryId}">
             <option value="">Выберите категорию</option>
@@ -38,12 +35,6 @@
         <input type="number" step="0.01" th:field="*{salary}" placeholder="Зарплата">
         <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
 
-        <input type="number" th:field="*{expFrom}" placeholder="Опыт от">
-        <div th:if="${#fields.hasErrors('expFrom')}" th:errors="*{expFrom}"></div>
-
-        <input type="number" th:field="*{expTo}" placeholder="Опыт до">
-        <div th:if="${#fields.hasErrors('expTo')}" th:errors="*{expTo}"></div>
-
         <select th:field="*{isActive}">
             <option th:value="true">true</option>
             <option th:value="false">false</option>
@@ -53,7 +44,7 @@
     </form>
 
     <div class="actions">
-        <a class="btn" th:href="@{/vacancies}">Назад к вакансиям</a>
+        <a class="btn" th:href="@{/resumes}">Назад к резюме</a>
     </div>
 </div>
 </body>

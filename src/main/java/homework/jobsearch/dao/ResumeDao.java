@@ -38,4 +38,21 @@ public class ResumeDao {
             return Optional.empty();
         }
     }
+
+    public void save(Resume resume) {
+        String sql = """
+                insert into resumes(applicant_id, name, category_id, salary, is_active, created_date, update_time)
+                values (?, ?, ?, ?, ?, ?, ?)
+                """;
+        jdbcTemplate.update(
+                sql,
+                resume.getApplicantId(),
+                resume.getName(),
+                resume.getCategoryId(),
+                resume.getSalary(),
+                resume.getIsActive(),
+                resume.getCreatedDate(),
+                resume.getUpdateTime()
+        );
+    }
 }

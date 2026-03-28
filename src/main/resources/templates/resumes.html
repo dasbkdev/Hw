@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Resumes</title>
+    <title>Резюме</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
     <div class="nav">
-        <a href="/">Главная</a>
-        <a href="/vacancies">Вакансии</a>
-        <a href="/resumes">Резюме</a>
-        <a href="/profile">Профиль</a>
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
     </div>
 
     <h1>Все резюме</h1>
 
-    <form method="get" action="/resumes" class="filter-form">
+    <form method="get" th:action="@{/resumes}" class="filter-form">
         <select name="categoryId">
             <option value="">Все категории</option>
             <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
@@ -24,13 +30,19 @@
         <button type="submit">Фильтр</button>
     </form>
 
+    <div class="actions">
+        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
+        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+    </div>
+
     <div class="cards">
         <div class="card" th:each="resume : ${resumes}">
             <h3>
-                <a th:href="@{'/resumes/' + ${resume.id}}" th:text="${resume.name}"></a>
+                <a th:href="@{'/resumes/' + ${resume.id}}" th:text="${resume.name}">Resume</a>
             </h3>
-            <p>Зарплата: <span th:text="${resume.salary}"></span></p>
-            <p>Обновлено: <span th:text="${resume.updateTime}"></span></p>
+            <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+            <p>Обновлено: <span th:text="${resume.updateTime}">date</span></p>
+            <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Подробнее</a>
         </div>
     </div>
 </div>

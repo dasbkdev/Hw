@@ -43,4 +43,22 @@ public class UserDao {
             return Optional.empty();
         }
     }
+
+    public void save(User user) {
+        String sql = """
+                insert into users(name, surname, age, email, password, phone_number, avatar, account_type)
+                values (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        jdbcTemplate.update(
+                sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType()
+        );
+    }
 }

@@ -1,9 +1,12 @@
 package homework.jobsearch.service;
+
 import homework.jobsearch.dao.ResumeDao;
+import homework.jobsearch.dto.ResumeDto;
 import homework.jobsearch.model.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +29,17 @@ public class ResumeService {
 
     public Optional<Resume> getResumeById(Long id) {
         return resumeDao.getResumeById(id);
+    }
+
+    public void save(ResumeDto dto, Long applicantId) {
+        Resume resume = new Resume();
+        resume.setApplicantId(applicantId);
+        resume.setName(dto.getName());
+        resume.setCategoryId(dto.getCategoryId());
+        resume.setSalary(dto.getSalary());
+        resume.setIsActive(dto.getIsActive());
+        resume.setCreatedDate(LocalDateTime.now());
+        resume.setUpdateTime(LocalDateTime.now());
+        resumeDao.save(resume);
     }
 }
