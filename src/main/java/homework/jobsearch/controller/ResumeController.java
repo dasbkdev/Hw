@@ -31,4 +31,11 @@ public class ResumeController {
         model.addAttribute("resume", resumeService.getResumeById(id).orElse(null));
         return "resume-details";
     }
+
+    @GetMapping("/my-resumes")
+    public String myResumes(Model model) {
+        model.addAttribute("resumes", resumeService.getResumesByApplicantId(2L));
+        return "my-resumes";
+    }
+
 }

@@ -31,4 +31,17 @@ public class VacancyController {
         model.addAttribute("vacancy", vacancyService.getVacancyById(id).orElse(null));
         return "vacancy-details";
     }
+
+    @GetMapping("/vacancies/create")
+    public String createVacancyForm(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "create-vacancy";
+    }
+
+    @GetMapping("/my-vacancies")
+    public String myVacancies(Model model) {
+        model.addAttribute("vacancies", vacancyService.getVacanciesByAuthorId(1L));
+        return "my-vacancies";
+    }
+
 }

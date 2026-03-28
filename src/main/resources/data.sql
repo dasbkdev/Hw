@@ -23,7 +23,7 @@ VALUES
     (2, 'Java Developer', 2, 80000, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     (3, 'Frontend Developer', 3, 70000, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-INSERT INTO contacts_info (type_id, resume_id, value)
+INSERT INTO contacts_info (type_id, resume_id, contact_value)
 VALUES
     (1, 1, 'ivan@mail.com'),
     (2, 1, '+996700000002'),

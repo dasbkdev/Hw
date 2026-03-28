@@ -14,5 +14,5 @@ public class ContactInfo {
     Long id;
     Long typeId;
     Long resumeId;
-    String value;
+    String contactValue;
 }
