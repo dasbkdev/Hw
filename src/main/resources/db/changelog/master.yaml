@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
       file: db/changelog/initial/01_create_tables.yaml
+  - include:
+      file: db/changelog/security/02_security_tables.yaml
+  - include:
+      file: db/changelog/security/03_security_data.yaml

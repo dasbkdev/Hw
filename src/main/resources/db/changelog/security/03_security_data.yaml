@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 14-insert-authorities
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into authorities(authority)
+              values ('FULL'), ('READ_ONLY');
+
+  - changeSet:
+      id: 15-insert-roles
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into roles(role, authority_id)
+              values
+              ('EMPLOYER', (select id from authorities where authority = 'FULL')),
+              ('APPLICANT', (select id from authorities where authority = 'READ_ONLY'));
+
+  - changeSet:
+      id: 16-update-existing-users-security
+      author: student
+      changes:
+        - sql:
+            sql: |
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'EMPLOYER')
+              where email = 'company@mail.com';
+
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'APPLICANT')
+              where email = 'ivan@mail.com';
+
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'APPLICANT')
+              where email = 'aigerim@mail.com';
