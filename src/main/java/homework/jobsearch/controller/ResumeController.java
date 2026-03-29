@@ -1,10 +1,13 @@
 package homework.jobsearch.controller;
 
 import homework.jobsearch.dto.ResumeDto;
+import homework.jobsearch.model.User;
 import homework.jobsearch.service.CategoryService;
 import homework.jobsearch.service.ResumeService;
+import homework.jobsearch.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ResumeController {
     private final ResumeService resumeService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @GetMapping("/resumes")
     public String resumes(@RequestParam(required = false) Long categoryId, Model model) {
@@ -37,8 +41,9 @@ public class ResumeController {
     }
 
     @GetMapping("/my-resumes")
-    public String myResumes(Model model) {
-        model.addAttribute("resumes", resumeService.getResumesByApplicantId(2L));
+    public String myResumes(Authentication authentication, Model model) {
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        model.addAttribute("resumes", user == null ? java.util.List.of() : resumeService.getResumesByApplicantId(user.getId()));
         return "my-resumes";
     }
 
@@ -52,12 +57,18 @@ public class ResumeController {
     @PostMapping("/resumes/create")
     public String createResume(@Valid ResumeDto dto,
                                BindingResult bindingResult,
+                               Authentication authentication,
                                Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.getAllCategories());
             return "create-resume";
         }
-        resumeService.save(dto, 2L);
+
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        if (user != null) {
+            resumeService.save(dto, user.getId());
+        }
+
         return "redirect:/my-resumes";
     }
 }

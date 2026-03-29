@@ -1,10 +1,13 @@
 package homework.jobsearch.controller;
 
 import homework.jobsearch.dto.VacancyDto;
+import homework.jobsearch.model.User;
 import homework.jobsearch.service.CategoryService;
+import homework.jobsearch.service.UserService;
 import homework.jobsearch.service.VacancyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class VacancyController {
     private final VacancyService vacancyService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @GetMapping("/vacancies")
     public String vacancies(@RequestParam(required = false) Long categoryId, Model model) {
@@ -37,8 +41,9 @@ public class VacancyController {
     }
 
     @GetMapping("/my-vacancies")
-    public String myVacancies(Model model) {
-        model.addAttribute("vacancies", vacancyService.getVacanciesByAuthorId(1L));
+    public String myVacancies(Authentication authentication, Model model) {
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        model.addAttribute("vacancies", user == null ? java.util.List.of() : vacancyService.getVacanciesByAuthorId(user.getId()));
         return "my-vacancies";
     }
 
@@ -52,12 +57,18 @@ public class VacancyController {
     @PostMapping("/vacancies/create")
     public String createVacancy(@Valid VacancyDto dto,
                                 BindingResult bindingResult,
+                                Authentication authentication,
                                 Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.getAllCategories());
             return "create-vacancy";
         }
-        vacancyService.save(dto, 1L);
+
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        if (user != null) {
+            vacancyService.save(dto, user.getId());
+        }
+
         return "redirect:/my-vacancies";
     }
 }

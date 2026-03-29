@@ -20,4 +20,6 @@ public class User {
     String phoneNumber;
     String avatar;
     String accountType;
+    Boolean enabled;
+    Long roleId;
 }

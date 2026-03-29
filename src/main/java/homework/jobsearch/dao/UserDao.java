@@ -12,6 +12,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UserDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public List<User> getAllApplicants() {
@@ -49,6 +50,7 @@ public class UserDao {
                 insert into users(name, surname, age, email, password, phone_number, avatar, account_type)
                 values (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
+
         jdbcTemplate.update(
                 sql,
                 user.getName(),
@@ -59,6 +61,27 @@ public class UserDao {
                 user.getPhoneNumber(),
                 user.getAvatar(),
                 user.getAccountType()
+        );
+    }
+
+    public void saveWithRole(User user, String role) {
+        String sql = """
+                insert into users(name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, (select id from roles where role = ?))
+                """;
+
+        jdbcTemplate.update(
+                sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType(),
+                user.getEnabled(),
+                role
         );
     }
 }

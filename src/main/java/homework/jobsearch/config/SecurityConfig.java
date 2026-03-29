@@ -6,15 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Bean
@@ -23,7 +24,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsManager userDetailsService() {
+    public UserDetailsService userDetailsService() {
         JdbcDaoImpl manager = new JdbcDaoImpl();
         manager.setJdbcTemplate(jdbcTemplate);
 
@@ -51,6 +52,8 @@ public class SecurityConfig {
                                 "/",
                                 "/vacancies",
                                 "/vacancies/*",
+                                "/resumes",
+                                "/resumes/*",
                                 "/register",
                                 "/login",
                                 "/css/**",
