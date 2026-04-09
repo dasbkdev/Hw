@@ -59,16 +59,11 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/h2-console/**"
                         ).permitAll()
-                        .requestMatchers("/vacancies/create", "/my-vacancies", "/responses/**")
-                        .hasAuthority("EMPLOYER")
-                        .requestMatchers("/resumes/create", "/my-resumes")
-                        .hasAuthority("APPLICANT")
-                        .requestMatchers("/profile", "/chat/**")
-                        .authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .defaultSuccessUrl("/profile", true)
                         .permitAll()
@@ -78,7 +73,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();

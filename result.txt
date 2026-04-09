@@ -1,0 +1,3769 @@
+================ TREE STRUCTURE ================
+.
+├── collect_project.sh
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── README.md
+├── result.txt
+└── src
+    └── main
+        ├── java
+        │   └── homework
+        │       └── jobsearch
+        │           ├── config
+        │           │   └── SecurityConfig.java
+        │           ├── controller
+        │           │   ├── AuthController.java
+        │           │   ├── HomeController.java
+        │           │   ├── ProfileController.java
+        │           │   ├── ResponseController.java
+        │           │   ├── ResumeController.java
+        │           │   └── VacancyController.java
+        │           ├── dao
+        │           │   ├── CategoryDao.java
+        │           │   ├── MessageDao.java
+        │           │   ├── RespondedApplicantDao.java
+        │           │   ├── ResumeDao.java
+        │           │   ├── UserDao.java
+        │           │   └── VacancyDao.java
+        │           ├── dto
+        │           │   ├── RegisterDto.java
+        │           │   ├── ResumeDto.java
+        │           │   └── VacancyDto.java
+        │           ├── error
+        │           │   ├── ErrorResponseBody.java
+        │           │   └── handler
+        │           │       └── GlobalExceptionHandler.java
+        │           ├── HwApplication.java
+        │           ├── model
+        │           │   ├── Category.java
+        │           │   ├── ContactInfo.java
+        │           │   ├── ContactType.java
+        │           │   ├── EducationInfo.java
+        │           │   ├── Education.java
+        │           │   ├── enums
+        │           │   │   └── Role.java
+        │           │   ├── Message.java
+        │           │   ├── RespondedApplicant.java
+        │           │   ├── Response.java
+        │           │   ├── Resume.java
+        │           │   ├── User.java
+        │           │   ├── Vacancy.java
+        │           │   ├── WorkExperienceInfo.java
+        │           │   └── WorkExperience.java
+        │           └── service
+        │               ├── CategoryService.java
+        │               ├── FileService.java
+        │               ├── MessageService.java
+        │               ├── RespondedApplicantService.java
+        │               ├── ResumeService.java
+        │               ├── UserService.java
+        │               └── VacancyService.java
+        └── resources
+            ├── application.properties
+            ├── data.sql
+            ├── db
+            │   └── changelog
+            │       ├── initial
+            │       │   └── 01_create_tables.yaml
+            │       ├── master.yaml
+            │       └── security
+            │           ├── 02_security_tables.yaml
+            │           └── 03_security_data.yaml
+            ├── old_schema.sql
+            ├── static
+            │   └── css
+            │       └── style.css
+            └── templates
+                ├── chat.html
+                ├── create-resume.html
+                ├── create-vacancy.html
+                ├── index.html
+                ├── login.html
+                ├── my-resumes.html
+                ├── my-vacancies.html
+                ├── profile.html
+                ├── register.html
+                ├── responses.html
+                ├── resume-details.html
+                ├── resumes.html
+                ├── vacancies.html
+                └── vacancy-details.html
+
+23 directories, 68 files
+
+================ FILE CONTENTS ================
+
+========== FILE: ./.gitattributes ==========
+/mvnw text eol=lf
+*.cmd text eol=crlf
+
+========== FILE: ./.gitignore ==========
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+========== FILE: ./.mvn/wrapper/maven-wrapper.properties ==========
+wrapperVersion=3.3.4
+distributionType=only-script
+distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.14/apache-maven-3.9.14-bin.zip
+
+========== FILE: ./collect_project.sh ==========
+#!/bin/bash
+
+OUTPUT_FILE="result.txt"
+
+echo "Сбор проекта начат..."
+
+# Очистить файл если существует
+> "$OUTPUT_FILE"
+
+echo "================ TREE STRUCTURE ================" >> "$OUTPUT_FILE"
+
+# Добавляем дерево проекта
+tree -L 10 >> "$OUTPUT_FILE"
+
+echo "" >> "$OUTPUT_FILE"
+echo "================ FILE CONTENTS ================" >> "$OUTPUT_FILE"
+
+# Перебор всех файлов
+find . -type f \
+    ! -path "./target/*" \
+    ! -path "./.git/*" \
+    ! -name "*.class" \
+    ! -name "*.log" \
+    ! -name "*.jar" \
+    ! -name "result.txt" \
+| while read file
+do
+    echo "" >> "$OUTPUT_FILE"
+    echo "========== FILE: $file ==========" >> "$OUTPUT_FILE"
+    cat "$file" >> "$OUTPUT_FILE"
+done
+
+echo ""
+echo "Готово. Файл создан:"
+echo "$OUTPUT_FILE"
+
+========== FILE: ./mvnw ==========
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+# ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
+# Apache Maven Wrapper startup batch script, version 3.3.4
+#
+# Optional ENV vars
+# -----------------
+#   JAVA_HOME - location of a JDK home dir, required when download maven via java source
+#   MVNW_REPOURL - repo url base for downloading maven distribution
+#   MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
+#   MVNW_VERBOSE - true: enable verbose log; debug: trace the mvnw script; others: silence the output
+# ----------------------------------------------------------------------------
+
+set -euf
+[ "${MVNW_VERBOSE-}" != debug ] || set -x
+
+# OS specific support.
+native_path() { printf %s\\n "$1"; }
+case "$(uname)" in
+CYGWIN* | MINGW*)
+  [ -z "${JAVA_HOME-}" ] || JAVA_HOME="$(cygpath --unix "$JAVA_HOME")"
+  native_path() { cygpath --path --windows "$1"; }
+  ;;
+esac
+
+# set JAVACMD and JAVACCMD
+set_java_home() {
+  # For Cygwin and MinGW, ensure paths are in Unix format before anything is touched
+  if [ -n "${JAVA_HOME-}" ]; then
+    if [ -x "$JAVA_HOME/jre/sh/java" ]; then
+      # IBM's JDK on AIX uses strange locations for the executables
+      JAVACMD="$JAVA_HOME/jre/sh/java"
+      JAVACCMD="$JAVA_HOME/jre/sh/javac"
+    else
+      JAVACMD="$JAVA_HOME/bin/java"
+      JAVACCMD="$JAVA_HOME/bin/javac"
+
+      if [ ! -x "$JAVACMD" ] || [ ! -x "$JAVACCMD" ]; then
+        echo "The JAVA_HOME environment variable is not defined correctly, so mvnw cannot run." >&2
+        echo "JAVA_HOME is set to \"$JAVA_HOME\", but \"\$JAVA_HOME/bin/java\" or \"\$JAVA_HOME/bin/javac\" does not exist." >&2
+        return 1
+      fi
+    fi
+  else
+    JAVACMD="$(
+      'set' +e
+      'unset' -f command 2>/dev/null
+      'command' -v java
+    )" || :
+    JAVACCMD="$(
+      'set' +e
+      'unset' -f command 2>/dev/null
+      'command' -v javac
+    )" || :
+
+    if [ ! -x "${JAVACMD-}" ] || [ ! -x "${JAVACCMD-}" ]; then
+      echo "The java/javac command does not exist in PATH nor is JAVA_HOME set, so mvnw cannot run." >&2
+      return 1
+    fi
+  fi
+}
+
+# hash string like Java String::hashCode
+hash_string() {
+  str="${1:-}" h=0
+  while [ -n "$str" ]; do
+    char="${str%"${str#?}"}"
+    h=$(((h * 31 + $(LC_CTYPE=C printf %d "'$char")) % 4294967296))
+    str="${str#?}"
+  done
+  printf %x\\n $h
+}
+
+verbose() { :; }
+[ "${MVNW_VERBOSE-}" != true ] || verbose() { printf %s\\n "${1-}"; }
+
+die() {
+  printf %s\\n "$1" >&2
+  exit 1
+}
+
+trim() {
+  # MWRAPPER-139:
+  #   Trims trailing and leading whitespace, carriage returns, tabs, and linefeeds.
+  #   Needed for removing poorly interpreted newline sequences when running in more
+  #   exotic environments such as mingw bash on Windows.
+  printf "%s" "${1}" | tr -d '[:space:]'
+}
+
+scriptDir="$(dirname "$0")"
+scriptName="$(basename "$0")"
+
+# parse distributionUrl and optional distributionSha256Sum, requires .mvn/wrapper/maven-wrapper.properties
+while IFS="=" read -r key value; do
+  case "${key-}" in
+  distributionUrl) distributionUrl=$(trim "${value-}") ;;
+  distributionSha256Sum) distributionSha256Sum=$(trim "${value-}") ;;
+  esac
+done <"$scriptDir/.mvn/wrapper/maven-wrapper.properties"
+[ -n "${distributionUrl-}" ] || die "cannot read distributionUrl property in $scriptDir/.mvn/wrapper/maven-wrapper.properties"
+
+case "${distributionUrl##*/}" in
+maven-mvnd-*bin.*)
+  MVN_CMD=mvnd.sh _MVNW_REPO_PATTERN=/maven/mvnd/
+  case "${PROCESSOR_ARCHITECTURE-}${PROCESSOR_ARCHITEW6432-}:$(uname -a)" in
+  *AMD64:CYGWIN* | *AMD64:MINGW*) distributionPlatform=windows-amd64 ;;
+  :Darwin*x86_64) distributionPlatform=darwin-amd64 ;;
+  :Darwin*arm64) distributionPlatform=darwin-aarch64 ;;
+  :Linux*x86_64*) distributionPlatform=linux-amd64 ;;
+  *)
+    echo "Cannot detect native platform for mvnd on $(uname)-$(uname -m), use pure java version" >&2
+    distributionPlatform=linux-amd64
+    ;;
+  esac
+  distributionUrl="${distributionUrl%-bin.*}-$distributionPlatform.zip"
+  ;;
+maven-mvnd-*) MVN_CMD=mvnd.sh _MVNW_REPO_PATTERN=/maven/mvnd/ ;;
+*) MVN_CMD="mvn${scriptName#mvnw}" _MVNW_REPO_PATTERN=/org/apache/maven/ ;;
+esac
+
+# apply MVNW_REPOURL and calculate MAVEN_HOME
+# maven home pattern: ~/.m2/wrapper/dists/{apache-maven-<version>,maven-mvnd-<version>-<platform>}/<hash>
+[ -z "${MVNW_REPOURL-}" ] || distributionUrl="$MVNW_REPOURL$_MVNW_REPO_PATTERN${distributionUrl#*"$_MVNW_REPO_PATTERN"}"
+distributionUrlName="${distributionUrl##*/}"
+distributionUrlNameMain="${distributionUrlName%.*}"
+distributionUrlNameMain="${distributionUrlNameMain%-bin}"
+MAVEN_USER_HOME="${MAVEN_USER_HOME:-${HOME}/.m2}"
+MAVEN_HOME="${MAVEN_USER_HOME}/wrapper/dists/${distributionUrlNameMain-}/$(hash_string "$distributionUrl")"
+
+exec_maven() {
+  unset MVNW_VERBOSE MVNW_USERNAME MVNW_PASSWORD MVNW_REPOURL || :
+  exec "$MAVEN_HOME/bin/$MVN_CMD" "$@" || die "cannot exec $MAVEN_HOME/bin/$MVN_CMD"
+}
+
+if [ -d "$MAVEN_HOME" ]; then
+  verbose "found existing MAVEN_HOME at $MAVEN_HOME"
+  exec_maven "$@"
+fi
+
+case "${distributionUrl-}" in
+*?-bin.zip | *?maven-mvnd-?*-?*.zip) ;;
+*) die "distributionUrl is not valid, must match *-bin.zip or maven-mvnd-*.zip, but found '${distributionUrl-}'" ;;
+esac
+
+# prepare tmp dir
+if TMP_DOWNLOAD_DIR="$(mktemp -d)" && [ -d "$TMP_DOWNLOAD_DIR" ]; then
+  clean() { rm -rf -- "$TMP_DOWNLOAD_DIR"; }
+  trap clean HUP INT TERM EXIT
+else
+  die "cannot create temp dir"
+fi
+
+mkdir -p -- "${MAVEN_HOME%/*}"
+
+# Download and Install Apache Maven
+verbose "Couldn't find MAVEN_HOME, downloading and installing it ..."
+verbose "Downloading from: $distributionUrl"
+verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
+
+# select .zip or .tar.gz
+if ! command -v unzip >/dev/null; then
+  distributionUrl="${distributionUrl%.zip}.tar.gz"
+  distributionUrlName="${distributionUrl##*/}"
+fi
+
+# verbose opt
+__MVNW_QUIET_WGET=--quiet __MVNW_QUIET_CURL=--silent __MVNW_QUIET_UNZIP=-q __MVNW_QUIET_TAR=''
+[ "${MVNW_VERBOSE-}" != true ] || __MVNW_QUIET_WGET='' __MVNW_QUIET_CURL='' __MVNW_QUIET_UNZIP='' __MVNW_QUIET_TAR=v
+
+# normalize http auth
+case "${MVNW_PASSWORD:+has-password}" in
+'') MVNW_USERNAME='' MVNW_PASSWORD='' ;;
+has-password) [ -n "${MVNW_USERNAME-}" ] || MVNW_USERNAME='' MVNW_PASSWORD='' ;;
+esac
+
+if [ -z "${MVNW_USERNAME-}" ] && command -v wget >/dev/null; then
+  verbose "Found wget ... using wget"
+  wget ${__MVNW_QUIET_WGET:+"$__MVNW_QUIET_WGET"} "$distributionUrl" -O "$TMP_DOWNLOAD_DIR/$distributionUrlName" || die "wget: Failed to fetch $distributionUrl"
+elif [ -z "${MVNW_USERNAME-}" ] && command -v curl >/dev/null; then
+  verbose "Found curl ... using curl"
+  curl ${__MVNW_QUIET_CURL:+"$__MVNW_QUIET_CURL"} -f -L -o "$TMP_DOWNLOAD_DIR/$distributionUrlName" "$distributionUrl" || die "curl: Failed to fetch $distributionUrl"
+elif set_java_home; then
+  verbose "Falling back to use Java to download"
+  javaSource="$TMP_DOWNLOAD_DIR/Downloader.java"
+  targetZip="$TMP_DOWNLOAD_DIR/$distributionUrlName"
+  cat >"$javaSource" <<-END
+	public class Downloader extends java.net.Authenticator
+	{
+	  protected java.net.PasswordAuthentication getPasswordAuthentication()
+	  {
+	    return new java.net.PasswordAuthentication( System.getenv( "MVNW_USERNAME" ), System.getenv( "MVNW_PASSWORD" ).toCharArray() );
+	  }
+	  public static void main( String[] args ) throws Exception
+	  {
+	    setDefault( new Downloader() );
+	    java.nio.file.Files.copy( java.net.URI.create( args[0] ).toURL().openStream(), java.nio.file.Paths.get( args[1] ).toAbsolutePath().normalize() );
+	  }
+	}
+	END
+  # For Cygwin/MinGW, switch paths to Windows format before running javac and java
+  verbose " - Compiling Downloader.java ..."
+  "$(native_path "$JAVACCMD")" "$(native_path "$javaSource")" || die "Failed to compile Downloader.java"
+  verbose " - Running Downloader.java ..."
+  "$(native_path "$JAVACMD")" -cp "$(native_path "$TMP_DOWNLOAD_DIR")" Downloader "$distributionUrl" "$(native_path "$targetZip")"
+fi
+
+# If specified, validate the SHA-256 sum of the Maven distribution zip file
+if [ -n "${distributionSha256Sum-}" ]; then
+  distributionSha256Result=false
+  if [ "$MVN_CMD" = mvnd.sh ]; then
+    echo "Checksum validation is not supported for maven-mvnd." >&2
+    echo "Please disable validation by removing 'distributionSha256Sum' from your maven-wrapper.properties." >&2
+    exit 1
+  elif command -v sha256sum >/dev/null; then
+    if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | sha256sum -c - >/dev/null 2>&1; then
+      distributionSha256Result=true
+    fi
+  elif command -v shasum >/dev/null; then
+    if echo "$distributionSha256Sum  $TMP_DOWNLOAD_DIR/$distributionUrlName" | shasum -a 256 -c >/dev/null 2>&1; then
+      distributionSha256Result=true
+    fi
+  else
+    echo "Checksum validation was requested but neither 'sha256sum' or 'shasum' are available." >&2
+    echo "Please install either command, or disable validation by removing 'distributionSha256Sum' from your maven-wrapper.properties." >&2
+    exit 1
+  fi
+  if [ $distributionSha256Result = false ]; then
+    echo "Error: Failed to validate Maven distribution SHA-256, your Maven distribution might be compromised." >&2
+    echo "If you updated your Maven version, you need to update the specified distributionSha256Sum property." >&2
+    exit 1
+  fi
+fi
+
+# unzip and move
+if command -v unzip >/dev/null; then
+  unzip ${__MVNW_QUIET_UNZIP:+"$__MVNW_QUIET_UNZIP"} "$TMP_DOWNLOAD_DIR/$distributionUrlName" -d "$TMP_DOWNLOAD_DIR" || die "failed to unzip"
+else
+  tar xzf${__MVNW_QUIET_TAR:+"$__MVNW_QUIET_TAR"} "$TMP_DOWNLOAD_DIR/$distributionUrlName" -C "$TMP_DOWNLOAD_DIR" || die "failed to untar"
+fi
+
+# Find the actual extracted directory name (handles snapshots where filename != directory name)
+actualDistributionDir=""
+
+# First try the expected directory name (for regular distributions)
+if [ -d "$TMP_DOWNLOAD_DIR/$distributionUrlNameMain" ]; then
+  if [ -f "$TMP_DOWNLOAD_DIR/$distributionUrlNameMain/bin/$MVN_CMD" ]; then
+    actualDistributionDir="$distributionUrlNameMain"
+  fi
+fi
+
+# If not found, search for any directory with the Maven executable (for snapshots)
+if [ -z "$actualDistributionDir" ]; then
+  # enable globbing to iterate over items
+  set +f
+  for dir in "$TMP_DOWNLOAD_DIR"/*; do
+    if [ -d "$dir" ]; then
+      if [ -f "$dir/bin/$MVN_CMD" ]; then
+        actualDistributionDir="$(basename "$dir")"
+        break
+      fi
+    fi
+  done
+  set -f
+fi
+
+if [ -z "$actualDistributionDir" ]; then
+  verbose "Contents of $TMP_DOWNLOAD_DIR:"
+  verbose "$(ls -la "$TMP_DOWNLOAD_DIR")"
+  die "Could not find Maven distribution directory in extracted archive"
+fi
+
+verbose "Found extracted Maven distribution directory: $actualDistributionDir"
+printf %s\\n "$distributionUrl" >"$TMP_DOWNLOAD_DIR/$actualDistributionDir/mvnw.url"
+mv -- "$TMP_DOWNLOAD_DIR/$actualDistributionDir" "$MAVEN_HOME" || [ -d "$MAVEN_HOME" ] || die "fail to move MAVEN_HOME"
+
+clean || :
+exec_maven "$@"
+
+========== FILE: ./mvnw.cmd ==========
+<# : batch portion
+@REM ----------------------------------------------------------------------------
+@REM Licensed to the Apache Software Foundation (ASF) under one
+@REM or more contributor license agreements.  See the NOTICE file
+@REM distributed with this work for additional information
+@REM regarding copyright ownership.  The ASF licenses this file
+@REM to you under the Apache License, Version 2.0 (the
+@REM "License"); you may not use this file except in compliance
+@REM with the License.  You may obtain a copy of the License at
+@REM
+@REM    http://www.apache.org/licenses/LICENSE-2.0
+@REM
+@REM Unless required by applicable law or agreed to in writing,
+@REM software distributed under the License is distributed on an
+@REM "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+@REM KIND, either express or implied.  See the License for the
+@REM specific language governing permissions and limitations
+@REM under the License.
+@REM ----------------------------------------------------------------------------
+
+@REM ----------------------------------------------------------------------------
+@REM Apache Maven Wrapper startup batch script, version 3.3.4
+@REM
+@REM Optional ENV vars
+@REM   MVNW_REPOURL - repo url base for downloading maven distribution
+@REM   MVNW_USERNAME/MVNW_PASSWORD - user and password for downloading maven
+@REM   MVNW_VERBOSE - true: enable verbose log; others: silence the output
+@REM ----------------------------------------------------------------------------
+
+@IF "%__MVNW_ARG0_NAME__%"=="" (SET __MVNW_ARG0_NAME__=%~nx0)
+@SET __MVNW_CMD__=
+@SET __MVNW_ERROR__=
+@SET __MVNW_PSMODULEP_SAVE=%PSModulePath%
+@SET PSModulePath=
+@FOR /F "usebackq tokens=1* delims==" %%A IN (`powershell -noprofile "& {$scriptDir='%~dp0'; $script='%__MVNW_ARG0_NAME__%'; icm -ScriptBlock ([Scriptblock]::Create((Get-Content -Raw '%~f0'))) -NoNewScope}"`) DO @(
+  IF "%%A"=="MVN_CMD" (set __MVNW_CMD__=%%B) ELSE IF "%%B"=="" (echo %%A) ELSE (echo %%A=%%B)
+)
+@SET PSModulePath=%__MVNW_PSMODULEP_SAVE%
+@SET __MVNW_PSMODULEP_SAVE=
+@SET __MVNW_ARG0_NAME__=
+@SET MVNW_USERNAME=
+@SET MVNW_PASSWORD=
+@IF NOT "%__MVNW_CMD__%"=="" ("%__MVNW_CMD__%" %*)
+@echo Cannot start maven from wrapper >&2 && exit /b 1
+@GOTO :EOF
+: end batch / begin powershell #>
+
+$ErrorActionPreference = "Stop"
+if ($env:MVNW_VERBOSE -eq "true") {
+  $VerbosePreference = "Continue"
+}
+
+# calculate distributionUrl, requires .mvn/wrapper/maven-wrapper.properties
+$distributionUrl = (Get-Content -Raw "$scriptDir/.mvn/wrapper/maven-wrapper.properties" | ConvertFrom-StringData).distributionUrl
+if (!$distributionUrl) {
+  Write-Error "cannot read distributionUrl property in $scriptDir/.mvn/wrapper/maven-wrapper.properties"
+}
+
+switch -wildcard -casesensitive ( $($distributionUrl -replace '^.*/','') ) {
+  "maven-mvnd-*" {
+    $USE_MVND = $true
+    $distributionUrl = $distributionUrl -replace '-bin\.[^.]*$',"-windows-amd64.zip"
+    $MVN_CMD = "mvnd.cmd"
+    break
+  }
+  default {
+    $USE_MVND = $false
+    $MVN_CMD = $script -replace '^mvnw','mvn'
+    break
+  }
+}
+
+# apply MVNW_REPOURL and calculate MAVEN_HOME
+# maven home pattern: ~/.m2/wrapper/dists/{apache-maven-<version>,maven-mvnd-<version>-<platform>}/<hash>
+if ($env:MVNW_REPOURL) {
+  $MVNW_REPO_PATTERN = if ($USE_MVND -eq $False) { "/org/apache/maven/" } else { "/maven/mvnd/" }
+  $distributionUrl = "$env:MVNW_REPOURL$MVNW_REPO_PATTERN$($distributionUrl -replace "^.*$MVNW_REPO_PATTERN",'')"
+}
+$distributionUrlName = $distributionUrl -replace '^.*/',''
+$distributionUrlNameMain = $distributionUrlName -replace '\.[^.]*$','' -replace '-bin$',''
+
+$MAVEN_M2_PATH = "$HOME/.m2"
+if ($env:MAVEN_USER_HOME) {
+  $MAVEN_M2_PATH = "$env:MAVEN_USER_HOME"
+}
+
+if (-not (Test-Path -Path $MAVEN_M2_PATH)) {
+    New-Item -Path $MAVEN_M2_PATH -ItemType Directory | Out-Null
+}
+
+$MAVEN_WRAPPER_DISTS = $null
+if ((Get-Item $MAVEN_M2_PATH).Target[0] -eq $null) {
+  $MAVEN_WRAPPER_DISTS = "$MAVEN_M2_PATH/wrapper/dists"
+} else {
+  $MAVEN_WRAPPER_DISTS = (Get-Item $MAVEN_M2_PATH).Target[0] + "/wrapper/dists"
+}
+
+$MAVEN_HOME_PARENT = "$MAVEN_WRAPPER_DISTS/$distributionUrlNameMain"
+$MAVEN_HOME_NAME = ([System.Security.Cryptography.SHA256]::Create().ComputeHash([byte[]][char[]]$distributionUrl) | ForEach-Object {$_.ToString("x2")}) -join ''
+$MAVEN_HOME = "$MAVEN_HOME_PARENT/$MAVEN_HOME_NAME"
+
+if (Test-Path -Path "$MAVEN_HOME" -PathType Container) {
+  Write-Verbose "found existing MAVEN_HOME at $MAVEN_HOME"
+  Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD"
+  exit $?
+}
+
+if (! $distributionUrlNameMain -or ($distributionUrlName -eq $distributionUrlNameMain)) {
+  Write-Error "distributionUrl is not valid, must end with *-bin.zip, but found $distributionUrl"
+}
+
+# prepare tmp dir
+$TMP_DOWNLOAD_DIR_HOLDER = New-TemporaryFile
+$TMP_DOWNLOAD_DIR = New-Item -Itemtype Directory -Path "$TMP_DOWNLOAD_DIR_HOLDER.dir"
+$TMP_DOWNLOAD_DIR_HOLDER.Delete() | Out-Null
+trap {
+  if ($TMP_DOWNLOAD_DIR.Exists) {
+    try { Remove-Item $TMP_DOWNLOAD_DIR -Recurse -Force | Out-Null }
+    catch { Write-Warning "Cannot remove $TMP_DOWNLOAD_DIR" }
+  }
+}
+
+New-Item -Itemtype Directory -Path "$MAVEN_HOME_PARENT" -Force | Out-Null
+
+# Download and Install Apache Maven
+Write-Verbose "Couldn't find MAVEN_HOME, downloading and installing it ..."
+Write-Verbose "Downloading from: $distributionUrl"
+Write-Verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
+
+$webclient = New-Object System.Net.WebClient
+if ($env:MVNW_USERNAME -and $env:MVNW_PASSWORD) {
+  $webclient.Credentials = New-Object System.Net.NetworkCredential($env:MVNW_USERNAME, $env:MVNW_PASSWORD)
+}
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$webclient.DownloadFile($distributionUrl, "$TMP_DOWNLOAD_DIR/$distributionUrlName") | Out-Null
+
+# If specified, validate the SHA-256 sum of the Maven distribution zip file
+$distributionSha256Sum = (Get-Content -Raw "$scriptDir/.mvn/wrapper/maven-wrapper.properties" | ConvertFrom-StringData).distributionSha256Sum
+if ($distributionSha256Sum) {
+  if ($USE_MVND) {
+    Write-Error "Checksum validation is not supported for maven-mvnd. `nPlease disable validation by removing 'distributionSha256Sum' from your maven-wrapper.properties."
+  }
+  Import-Module $PSHOME\Modules\Microsoft.PowerShell.Utility -Function Get-FileHash
+  if ((Get-FileHash "$TMP_DOWNLOAD_DIR/$distributionUrlName" -Algorithm SHA256).Hash.ToLower() -ne $distributionSha256Sum) {
+    Write-Error "Error: Failed to validate Maven distribution SHA-256, your Maven distribution might be compromised. If you updated your Maven version, you need to update the specified distributionSha256Sum property."
+  }
+}
+
+# unzip and move
+Expand-Archive "$TMP_DOWNLOAD_DIR/$distributionUrlName" -DestinationPath "$TMP_DOWNLOAD_DIR" | Out-Null
+
+# Find the actual extracted directory name (handles snapshots where filename != directory name)
+$actualDistributionDir = ""
+
+# First try the expected directory name (for regular distributions)
+$expectedPath = Join-Path "$TMP_DOWNLOAD_DIR" "$distributionUrlNameMain"
+$expectedMvnPath = Join-Path "$expectedPath" "bin/$MVN_CMD"
+if ((Test-Path -Path $expectedPath -PathType Container) -and (Test-Path -Path $expectedMvnPath -PathType Leaf)) {
+  $actualDistributionDir = $distributionUrlNameMain
+}
+
+# If not found, search for any directory with the Maven executable (for snapshots)
+if (!$actualDistributionDir) {
+  Get-ChildItem -Path "$TMP_DOWNLOAD_DIR" -Directory | ForEach-Object {
+    $testPath = Join-Path $_.FullName "bin/$MVN_CMD"
+    if (Test-Path -Path $testPath -PathType Leaf) {
+      $actualDistributionDir = $_.Name
+    }
+  }
+}
+
+if (!$actualDistributionDir) {
+  Write-Error "Could not find Maven distribution directory in extracted archive"
+}
+
+Write-Verbose "Found extracted Maven distribution directory: $actualDistributionDir"
+Rename-Item -Path "$TMP_DOWNLOAD_DIR/$actualDistributionDir" -NewName $MAVEN_HOME_NAME | Out-Null
+try {
+  Move-Item -Path "$TMP_DOWNLOAD_DIR/$MAVEN_HOME_NAME" -Destination $MAVEN_HOME_PARENT | Out-Null
+} catch {
+  if (! (Test-Path -Path "$MAVEN_HOME" -PathType Container)) {
+    Write-Error "fail to move MAVEN_HOME"
+  }
+} finally {
+  try { Remove-Item $TMP_DOWNLOAD_DIR -Recurse -Force | Out-Null }
+  catch { Write-Warning "Cannot remove $TMP_DOWNLOAD_DIR" }
+}
+
+Write-Output "MVN_CMD=$MAVEN_HOME/bin/$MVN_CMD"
+
+========== FILE: ./pom.xml ==========
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>homework</groupId>
+    <artifactId>jobsearch</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>jobsearch</name>
+    <description>jobsearch</description>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+========== FILE: ./README.md ==========
+
+========== FILE: ./src/main/java/homework/jobsearch/config/SecurityConfig.java ==========
+package homework.jobsearch.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        JdbcDaoImpl manager = new JdbcDaoImpl();
+        manager.setJdbcTemplate(jdbcTemplate);
+
+        manager.setUsersByUsernameQuery("""
+                select email, password, enabled
+                from users
+                where email = ?
+                """);
+
+        manager.setAuthoritiesByUsernameQuery("""
+                select u.email, r.role
+                from users u
+                join roles r on u.role_id = r.id
+                where u.email = ?
+                """);
+
+        return manager;
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/",
+                                "/vacancies",
+                                "/vacancies/*",
+                                "/resumes",
+                                "/resumes/*",
+                                "/register",
+                                "/login",
+                                "/css/**",
+                                "/h2-console/**"
+                        ).permitAll()
+                        .requestMatchers("/vacancies/create", "/my-vacancies", "/responses/**")
+                        .hasAuthority("EMPLOYER")
+                        .requestMatchers("/resumes/create", "/my-resumes")
+                        .hasAuthority("APPLICANT")
+                        .requestMatchers("/profile", "/chat/**")
+                        .authenticated()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("email")
+                        .defaultSuccessUrl("/profile", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+
+        return http.build();
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/AuthController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.dto.RegisterDto;
+import homework.jobsearch.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+@RequiredArgsConstructor
+public class AuthController {
+    private final UserService userService;
+
+    @GetMapping("/register")
+    public String registerForm(Model model) {
+        model.addAttribute("registerDto", new RegisterDto());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String register(@Valid RegisterDto registerDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
+
+        userService.register(registerDto);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/HomeController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.service.CategoryService;
+import homework.jobsearch.service.VacancyService;   
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+@RequiredArgsConstructor
+public class HomeController {
+    private final VacancyService vacancyService;
+    private final CategoryService categoryService;
+
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("vacancies", vacancyService.getAllActiveVacancies());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "index";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/ProfileController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.model.User;
+import homework.jobsearch.service.ResumeService;
+import homework.jobsearch.service.UserService;
+import homework.jobsearch.service.VacancyService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+@RequiredArgsConstructor
+public class ProfileController {
+
+    private final UserService userService;
+    private final ResumeService resumeService;
+    private final VacancyService vacancyService;
+
+    @GetMapping("/profile")
+    public String profile(Authentication authentication, Model model) {
+
+        if (authentication == null) {
+            return "redirect:/login";
+        }
+
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email).orElse(null);
+
+        model.addAttribute("user", user);
+
+        if (user != null && "APPLICANT".equals(user.getAccountType())) {
+            model.addAttribute("resumes",
+                    resumeService.getResumesByApplicantId(user.getId()));
+        }
+
+        if (user != null && "EMPLOYER".equals(user.getAccountType())) {
+            model.addAttribute("vacancies",
+                    vacancyService.getVacanciesByAuthorId(user.getId()));
+        }
+
+        return "profile";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/ResponseController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.service.MessageService;
+import homework.jobsearch.service.RespondedApplicantService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+@RequiredArgsConstructor
+public class ResponseController {
+    private final RespondedApplicantService respondedApplicantService;
+    private final MessageService messageService;
+
+    @GetMapping("/responses/{vacancyId}")
+    public String responses(@PathVariable Long vacancyId, Model model) {
+        model.addAttribute("responses", respondedApplicantService.getResponsesByVacancyId(vacancyId));
+        return "responses";
+    }
+
+    @GetMapping("/chat/{responseId}")
+    public String chat(@PathVariable Long responseId, Model model) {
+        model.addAttribute("messages", messageService.getMessagesByResponseId(responseId));
+        model.addAttribute("responseId", responseId);
+        return "chat";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/ResumeController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.dto.ResumeDto;
+import homework.jobsearch.model.User;
+import homework.jobsearch.service.CategoryService;
+import homework.jobsearch.service.ResumeService;
+import homework.jobsearch.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequiredArgsConstructor
+public class ResumeController {
+    private final ResumeService resumeService;
+    private final CategoryService categoryService;
+    private final UserService userService;
+
+    @GetMapping("/resumes")
+    public String resumes(@RequestParam(required = false) Long categoryId, Model model) {
+        if (categoryId == null) {
+            model.addAttribute("resumes", resumeService.getAllActiveResumes());
+        } else {
+            model.addAttribute("resumes", resumeService.getResumesByCategory(categoryId));
+        }
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "resumes";
+    }
+
+    @GetMapping("/resumes/{id}")
+    public String resumeDetails(@PathVariable Long id, Model model) {
+        model.addAttribute("resume", resumeService.getResumeById(id).orElse(null));
+        return "resume-details";
+    }
+
+    @GetMapping("/my-resumes")
+    public String myResumes(Authentication authentication, Model model) {
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        model.addAttribute("resumes", user == null ? java.util.List.of() : resumeService.getResumesByApplicantId(user.getId()));
+        return "my-resumes";
+    }
+
+    @GetMapping("/resumes/create")
+    public String createResumeForm(Model model) {
+        model.addAttribute("resumeDto", new ResumeDto());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "create-resume";
+    }
+
+    @PostMapping("/resumes/create")
+    public String createResume(@Valid ResumeDto dto,
+                               BindingResult bindingResult,
+                               Authentication authentication,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "create-resume";
+        }
+
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        if (user != null) {
+            resumeService.save(dto, user.getId());
+        }
+
+        return "redirect:/my-resumes";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/controller/VacancyController.java ==========
+package homework.jobsearch.controller;
+
+import homework.jobsearch.dto.VacancyDto;
+import homework.jobsearch.model.User;
+import homework.jobsearch.service.CategoryService;
+import homework.jobsearch.service.UserService;
+import homework.jobsearch.service.VacancyService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequiredArgsConstructor
+public class VacancyController {
+    private final VacancyService vacancyService;
+    private final CategoryService categoryService;
+    private final UserService userService;
+
+    @GetMapping("/vacancies")
+    public String vacancies(@RequestParam(required = false) Long categoryId, Model model) {
+        if (categoryId == null) {
+            model.addAttribute("vacancies", vacancyService.getAllActiveVacancies());
+        } else {
+            model.addAttribute("vacancies", vacancyService.getVacanciesByCategory(categoryId));
+        }
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "vacancies";
+    }
+
+    @GetMapping("/vacancies/{id}")
+    public String vacancyDetails(@PathVariable Long id, Model model) {
+        model.addAttribute("vacancy", vacancyService.getVacancyById(id).orElse(null));
+        return "vacancy-details";
+    }
+
+    @GetMapping("/my-vacancies")
+    public String myVacancies(Authentication authentication, Model model) {
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        model.addAttribute("vacancies", user == null ? java.util.List.of() : vacancyService.getVacanciesByAuthorId(user.getId()));
+        return "my-vacancies";
+    }
+
+    @GetMapping("/vacancies/create")
+    public String createVacancyForm(Model model) {
+        model.addAttribute("vacancyDto", new VacancyDto());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "create-vacancy";
+    }
+
+    @PostMapping("/vacancies/create")
+    public String createVacancy(@Valid VacancyDto dto,
+                                BindingResult bindingResult,
+                                Authentication authentication,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            return "create-vacancy";
+        }
+
+        User user = userService.getUserByEmail(authentication.getName()).orElse(null);
+        if (user != null) {
+            vacancyService.save(dto, user.getId());
+        }
+
+        return "redirect:/my-vacancies";
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/CategoryDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.Category;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class CategoryDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<Category> getAllCategories() {
+        String sql = "select * from categories order by name";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Category.class));
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/MessageDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.Message;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class MessageDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<Message> getMessagesByResponseId(Long responseId) {
+        String sql = "select * from messages where responded_applicants = ? order by timestamp";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Message.class), responseId);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/RespondedApplicantDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.RespondedApplicant;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class RespondedApplicantDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<RespondedApplicant> getResponsesByVacancyId(Long vacancyId) {
+        String sql = "select * from responded_applicants where vacancy_id = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(RespondedApplicant.class), vacancyId);
+    }
+
+    public List<RespondedApplicant> getResponsesByResumeId(Long resumeId) {
+        String sql = "select * from responded_applicants where resume_id = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(RespondedApplicant.class), resumeId);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/ResumeDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.Resume;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@RequiredArgsConstructor
+public class ResumeDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<Resume> getAllActiveResumes() {
+        String sql = "select * from resumes where is_active = true order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
+    }
+
+    public List<Resume> getResumesByCategory(Long categoryId) {
+        String sql = "select * from resumes where category_id = ? and is_active = true order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), categoryId);
+    }
+
+    public List<Resume> getResumesByApplicantId(Long applicantId) {
+        String sql = "select * from resumes where applicant_id = ? order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), applicantId);
+    }
+
+    public Optional<Resume> getResumeById(Long id) {
+        String sql = "select * from resumes where id = ?";
+        try {
+            Resume resume = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Resume.class), id);
+            return Optional.ofNullable(resume);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public void save(Resume resume) {
+        String sql = """
+                insert into resumes(applicant_id, name, category_id, salary, is_active, created_date, update_time)
+                values (?, ?, ?, ?, ?, ?, ?)
+                """;
+        jdbcTemplate.update(
+                sql,
+                resume.getApplicantId(),
+                resume.getName(),
+                resume.getCategoryId(),
+                resume.getSalary(),
+                resume.getIsActive(),
+                resume.getCreatedDate(),
+                resume.getUpdateTime()
+        );
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/UserDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@RequiredArgsConstructor
+public class UserDao {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<User> getAllApplicants() {
+        String sql = "select * from users where account_type = 'APPLICANT'";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public List<User> getAllEmployers() {
+        String sql = "select * from users where account_type = 'EMPLOYER'";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public Optional<User> getUserById(Long id) {
+        String sql = "select * from users where id = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
+            return Optional.ofNullable(user);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        String sql = "select * from users where email = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), email);
+            return Optional.ofNullable(user);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public void save(User user) {
+        String sql = """
+                insert into users(name, surname, age, email, password, phone_number, avatar, account_type)
+                values (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+
+        jdbcTemplate.update(
+                sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType()
+        );
+    }
+
+    public void saveWithRole(User user, String role) {
+        String sql = """
+                insert into users(name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, (select id from roles where role = ?))
+                """;
+
+        jdbcTemplate.update(
+                sql,
+                user.getName(),
+                user.getSurname(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getPhoneNumber(),
+                user.getAvatar(),
+                user.getAccountType(),
+                user.getEnabled(),
+                role
+        );
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dao/VacancyDao.java ==========
+package homework.jobsearch.dao;
+
+import homework.jobsearch.model.Vacancy;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
+@Component
+@RequiredArgsConstructor
+public class VacancyDao {
+    private final JdbcTemplate jdbcTemplate;
+
+    public List<Vacancy> getAllActiveVacancies() {
+        String sql = "select * from vacancies where is_active = true order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
+    }
+
+    public List<Vacancy> getVacanciesByCategory(Long categoryId) {
+        String sql = "select * from vacancies where category_id = ? and is_active = true order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), categoryId);
+    }
+
+    public Optional<Vacancy> getVacancyById(Long id) {
+        String sql = "select * from vacancies where id = ?";
+        try {
+            Vacancy vacancy = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
+            return Optional.ofNullable(vacancy);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public List<Vacancy> getVacanciesByAuthorId(Long authorId) {
+        String sql = "select * from vacancies where author_id = ? order by update_time desc";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), authorId);
+    }
+
+    public void save(Vacancy vacancy) {
+        String sql = """
+                insert into vacancies(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        jdbcTemplate.update(
+                sql,
+                vacancy.getName(),
+                vacancy.getDescription(),
+                vacancy.getCategoryId(),
+                vacancy.getSalary(),
+                vacancy.getExpFrom(),
+                vacancy.getExpTo(),
+                vacancy.getIsActive(),
+                vacancy.getAuthorId(),
+                vacancy.getCreatedDate(),
+                vacancy.getUpdateTime()
+        );
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/dto/RegisterDto.java ==========
+package homework.jobsearch.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class RegisterDto {
+    @NotBlank
+    String name;
+
+    @NotBlank
+    String surname;
+
+    @NotNull
+    Integer age;
+
+    @NotBlank
+    @Email
+    String email;
+
+    @NotBlank
+    String password;
+
+    @NotBlank
+    String phoneNumber;
+
+    @NotBlank
+    String accountType;
+}
+========== FILE: ./src/main/java/homework/jobsearch/dto/ResumeDto.java ==========
+package homework.jobsearch.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ResumeDto {
+    @NotBlank
+    String name;
+
+    @NotNull
+    Long categoryId;
+
+    @NotNull
+    BigDecimal salary;
+
+    @NotNull
+    Boolean isActive;
+}
+========== FILE: ./src/main/java/homework/jobsearch/dto/VacancyDto.java ==========
+package homework.jobsearch.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class VacancyDto {
+    @NotBlank
+    String name;
+
+    @NotBlank
+    String description;
+
+    @NotNull
+    Long categoryId;
+
+    @NotNull
+    BigDecimal salary;
+
+    @NotNull
+    Integer expFrom;
+
+    @NotNull
+    Integer expTo;
+
+    @NotNull
+    Boolean isActive;
+}
+========== FILE: ./src/main/java/homework/jobsearch/error/ErrorResponseBody.java ==========
+package homework.jobsearch.error;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ErrorResponseBody {
+    String message;
+    List<String> details;
+}
+========== FILE: ./src/main/java/homework/jobsearch/error/handler/GlobalExceptionHandler.java ==========
+package homework.jobsearch.error.handler;
+
+import homework.jobsearch.error.ErrorResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponseBody> handleNoSuchElementException(NoSuchElementException e) {
+        ErrorResponseBody body = new ErrorResponseBody(
+                "Object not found",
+                List.of(e.getMessage())
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ErrorResponseBody> handleBindException(BindException e) {
+        List<String> errors = new ArrayList<>();
+        for (FieldError fieldError : e.getFieldErrors()) {
+            errors.add(fieldError.getField() + ": " + fieldError.getDefaultMessage());
+        }
+
+        ErrorResponseBody body = new ErrorResponseBody(
+                "Validation error",
+                errors
+        );
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseBody> handleException(Exception e) {
+        ErrorResponseBody body = new ErrorResponseBody(
+                "Internal server error",
+                List.of(e.getMessage())
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/HwApplication.java ==========
+//package kg.attractor.jobsearch;
+package homework.jobsearch;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HwApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(HwApplication.class, args);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Category.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Category {
+    Long id;
+    String name;
+    Long parentId;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/ContactInfo.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ContactInfo {
+    Long id;
+    Long typeId;
+    Long resumeId;
+    String contactValue;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/ContactType.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ContactType {
+    Long id;
+    String type;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Education.java ==========
+package homework.jobsearch.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Education {
+    Long id;
+    Long resumeId;
+    String placeName;
+    String programName;
+    Integer startYear;
+    Integer endYear;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/EducationInfo.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class EducationInfo {
+    Long id;
+    Long resumeId;
+    String institution;
+    String program;
+    LocalDate startDate;
+    LocalDate endDate;
+    String degree;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/enums/Role.java ==========
+package kg.attractor.jobsearch.model.enums;
+
+public enum Role {
+    APPLICANT,
+    EMPLOYER
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Message.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Message {
+    Long id;
+    Long respondedApplicants;
+    String content;
+    LocalDateTime timestamp;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/RespondedApplicant.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class RespondedApplicant {
+    Long id;
+    Long resumeId;
+    Long vacancyId;
+    Boolean confirmation;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Response.java ==========
+package homework.jobsearch.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Response {
+    Long id;
+    Long vacancyId;
+    Long resumeId;
+    LocalDateTime createdDate;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Resume.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Resume {
+    Long id;
+    Long applicantId;
+    String name;
+    Long categoryId;
+    BigDecimal salary;
+    Boolean isActive;
+    LocalDateTime createdDate;
+    LocalDateTime updateTime;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/User.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class User {
+    Long id;
+    String name;
+    String surname;
+    Integer age;
+    String email;
+    String password;
+    String phoneNumber;
+    String avatar;
+    String accountType;
+    Boolean enabled;
+    Long roleId;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/Vacancy.java ==========
+package homework.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Vacancy {
+    Long id;
+    String name;
+    String description;
+    Long categoryId;
+    BigDecimal salary;
+    Integer expFrom;
+    Integer expTo;
+    Boolean isActive;
+    Long authorId;
+    LocalDateTime createdDate;
+    LocalDateTime updateTime;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/WorkExperience.java ==========
+package kg.attractor.jobsearch.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class WorkExperience {
+    Long id;
+    Long resumeId;
+    String companyName;
+    String position;
+    String responsibilities;
+    Integer startYear;
+    Integer endYear;
+}
+========== FILE: ./src/main/java/homework/jobsearch/model/WorkExperienceInfo.java ==========
+package kg.attractor.jobsearch.model;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class WorkExperienceInfo {
+    Long id;
+    Long resumeId;
+    Integer years;
+    String companyName;
+    String position;
+    String responsibilities;
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/CategoryService.java ==========
+package homework.jobsearch.service;
+import homework.jobsearch.dao.CategoryDao;
+import homework.jobsearch.model.Category;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class CategoryService {
+    private final CategoryDao categoryDao;
+
+    public List<Category> getAllCategories() {
+        return categoryDao.getAllCategories();
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/FileService.java ==========
+package homework.jobsearch.service;
+
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+@Service
+public class FileService {
+    private static final String UPLOAD_DIR = "uploads";
+
+    @SneakyThrows
+    public String saveUploadedFile(MultipartFile file, String subDir) {
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFileName = uuidFile + "_" + file.getOriginalFilename();
+
+        Path pathDir = Paths.get(UPLOAD_DIR + subDir);
+        Files.createDirectories(pathDir);
+
+        Path filePath = Paths.get(pathDir + "/" + resultFileName);
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
+        }
+
+        try (OutputStream os = Files.newOutputStream(filePath)) {
+            os.write(file.getBytes());
+        }
+
+        return resultFileName;
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/MessageService.java ==========
+package homework.jobsearch.service;
+
+import homework.jobsearch.dao.MessageDao;
+import homework.jobsearch.model.Message;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class MessageService {
+    private final MessageDao messageDao;
+
+    public List<Message> getMessagesByResponseId(Long responseId) {
+        return messageDao.getMessagesByResponseId(responseId);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/RespondedApplicantService.java ==========
+package homework.jobsearch.service;
+
+import homework.jobsearch.dao.RespondedApplicantDao;
+import homework.jobsearch.model.RespondedApplicant;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class RespondedApplicantService {
+    private final RespondedApplicantDao respondedApplicantDao;
+
+    public List<RespondedApplicant> getResponsesByVacancyId(Long vacancyId) {
+        return respondedApplicantDao.getResponsesByVacancyId(vacancyId);
+    }
+
+    public List<RespondedApplicant> getResponsesByResumeId(Long resumeId) {
+        return respondedApplicantDao.getResponsesByResumeId(resumeId);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/ResumeService.java ==========
+package homework.jobsearch.service;
+
+import homework.jobsearch.dao.ResumeDao;
+import homework.jobsearch.dto.ResumeDto;
+import homework.jobsearch.model.Resume;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class ResumeService {
+    private final ResumeDao resumeDao;
+
+    public List<Resume> getAllActiveResumes() {
+        return resumeDao.getAllActiveResumes();
+    }
+
+    public List<Resume> getResumesByCategory(Long categoryId) {
+        return resumeDao.getResumesByCategory(categoryId);
+    }
+
+    public List<Resume> getResumesByApplicantId(Long applicantId) {
+        return resumeDao.getResumesByApplicantId(applicantId);
+    }
+
+    public Optional<Resume> getResumeById(Long id) {
+        return resumeDao.getResumeById(id);
+    }
+
+    public void save(ResumeDto dto, Long applicantId) {
+        Resume resume = new Resume();
+        resume.setApplicantId(applicantId);
+        resume.setName(dto.getName());
+        resume.setCategoryId(dto.getCategoryId());
+        resume.setSalary(dto.getSalary());
+        resume.setIsActive(dto.getIsActive());
+        resume.setCreatedDate(LocalDateTime.now());
+        resume.setUpdateTime(LocalDateTime.now());
+        resumeDao.save(resume);
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/UserService.java ==========
+package homework.jobsearch.service;
+
+import homework.jobsearch.dao.UserDao;
+import homework.jobsearch.dto.RegisterDto;
+import homework.jobsearch.model.User;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class UserService {
+    private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
+
+    public List<User> getAllApplicants() {
+        return userDao.getAllApplicants();
+    }
+
+    public List<User> getAllEmployers() {
+        return userDao.getAllEmployers();
+    }
+
+    public Optional<User> getUserById(Long id) {
+        return userDao.getUserById(id);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
+    public void register(RegisterDto dto) {
+        log.info("Register user with email={}", dto.getEmail());
+
+        User user = new User();
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setAge(dto.getAge());
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setPhoneNumber(dto.getPhoneNumber());
+        user.setAvatar("default-avatar.png");
+        user.setAccountType(dto.getAccountType());
+        user.setEnabled(true);
+
+        if ("EMPLOYER".equals(dto.getAccountType())) {
+            userDao.saveWithRole(user, "EMPLOYER");
+        } else {
+            userDao.saveWithRole(user, "APPLICANT");
+        }
+    }
+}
+========== FILE: ./src/main/java/homework/jobsearch/service/VacancyService.java ==========
+package homework.jobsearch.service;
+
+import homework.jobsearch.dao.VacancyDao;
+import homework.jobsearch.dto.VacancyDto;
+import homework.jobsearch.model.Vacancy;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class VacancyService {
+    private final VacancyDao vacancyDao;
+
+    public List<Vacancy> getAllActiveVacancies() {
+        return vacancyDao.getAllActiveVacancies();
+    }
+
+    public List<Vacancy> getVacanciesByCategory(Long categoryId) {
+        return vacancyDao.getVacanciesByCategory(categoryId);
+    }
+
+    public Optional<Vacancy> getVacancyById(Long id) {
+        return vacancyDao.getVacancyById(id);
+    }
+
+    public List<Vacancy> getVacanciesByAuthorId(Long authorId) {
+        return vacancyDao.getVacanciesByAuthorId(authorId);
+    }
+
+    public void save(VacancyDto dto, Long authorId) {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setName(dto.getName());
+        vacancy.setDescription(dto.getDescription());
+        vacancy.setCategoryId(dto.getCategoryId());
+        vacancy.setSalary(dto.getSalary());
+        vacancy.setExpFrom(dto.getExpFrom());
+        vacancy.setExpTo(dto.getExpTo());
+        vacancy.setIsActive(dto.getIsActive());
+        vacancy.setAuthorId(authorId);
+        vacancy.setCreatedDate(LocalDateTime.now());
+        vacancy.setUpdateTime(LocalDateTime.now());
+        vacancyDao.save(vacancy);
+    }
+}
+========== FILE: ./src/main/resources/application.properties ==========
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.username=sa
+spring.datasource.password=
+spring.datasource.driver-class-name=org.h2.Driver
+
+spring.liquibase.change-log=classpath:/db/changelog/master.yaml
+
+spring.sql.init.mode=never
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+spring.thymeleaf.cache=false
+========== FILE: ./src/main/resources/data.sql ==========
+INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type)
+VALUES
+    ('Mega', 'Soft', 10, 'company@mail.com', '1234', '+996700000001', 'default-avatar.png', 'EMPLOYER'),
+    ('Ivan', 'Ivanov', 24, 'ivan@mail.com', '1234', '+996700000002', 'default-avatar.png', 'APPLICANT'),
+    ('Aigerim', 'Asanova', 22, 'aigerim@mail.com', '1234', '+996700000003', 'default-avatar.png', 'APPLICANT');
+
+INSERT INTO categories (name, parent_id)
+VALUES
+    ('IT', NULL),
+    ('Backend', 1),
+    ('Frontend', 1),
+    ('Design', NULL);
+
+INSERT INTO contact_types (type)
+VALUES
+    ('EMAIL'),
+    ('PHONE'),
+    ('TELEGRAM'),
+    ('LINKEDIN');
+
+INSERT INTO resumes (applicant_id, name, category_id, salary, is_active, created_date, update_time)
+VALUES
+    (2, 'Java Developer', 2, 80000, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    (3, 'Frontend Developer', 3, 70000, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO contacts_info (type_id, resume_id, contact_value)
+VALUES
+    (1, 1, 'ivan@mail.com'),
+    (2, 1, '+996700000002'),
+    (3, 1, '@ivan_java'),
+    (1, 2, 'aigerim@mail.com'),
+    (2, 2, '+996700000003');
+
+INSERT INTO education_info (resume_id, institution, program, start_date, end_date, degree)
+VALUES
+    (1, 'AUCA', 'Computer Science', '2019-09-01', '2023-06-30', 'Bachelor'),
+    (2, 'KNU', 'Software Engineering', '2020-09-01', '2024-06-30', 'Bachelor');
+
+INSERT INTO work_experience_info (resume_id, years, company_name, position, responsibilities)
+VALUES
+    (1, 2, 'Tech Soft', 'Junior Java Developer', 'Backend development'),
+    (2, 1, 'Web Studio', 'Frontend Developer', 'Frontend development');
+
+INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)
+VALUES
+    ('Java Developer', 'Spring Boot developer needed', 2, 100000, 1, 3, TRUE, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Frontend Developer', 'JavaScript developer needed', 3, 90000, 1, 2, TRUE, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO responded_applicants (resume_id, vacancy_id, confirmation)
+VALUES
+    (1, 1, FALSE),
+    (2, 2, TRUE);
+
+INSERT INTO messages (responded_applicants, content, timestamp)
+VALUES
+    (1, 'Здравствуйте, хотел бы обсудить вакансию', CURRENT_TIMESTAMP),
+    (1, 'Добрый день, напишите подробнее о своем опыте', CURRENT_TIMESTAMP),
+    (2, 'Спасибо, ждем вас на собеседовании', CURRENT_TIMESTAMP);
+========== FILE: ./src/main/resources/db/changelog/initial/01_create_tables.yaml ==========
+databaseChangeLog:
+  - changeSet:
+      id: 01-create-users-table
+      author: student
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: varchar(255)
+              - column:
+                  name: age
+                  type: int
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar(55)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: avatar
+                  type: varchar(255)
+              - column:
+                  name: account_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 02-create-categories-table
+      author: student
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: int
+        - addForeignKeyConstraint:
+            baseTableName: categories
+            baseColumnNames: parent_id
+            constraintName: fk_categories_parent
+            referencedTableName: categories
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 03-create-resumes-table
+      author: student
+      changes:
+        - createTable:
+            tableName: resumes
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: applicant_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: decimal(12,2)
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: resumes
+            baseColumnNames: applicant_id
+            constraintName: fk_resumes_applicant
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: resumes
+            baseColumnNames: category_id
+            constraintName: fk_resumes_category
+            referencedTableName: categories
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 04-create-contact-types-table
+      author: student
+      changes:
+        - createTable:
+            tableName: contact_types
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 05-create-contacts-info-table
+      author: student
+      changes:
+        - createTable:
+            tableName: contacts_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact_value
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: contacts_info
+            baseColumnNames: type_id
+            constraintName: fk_contacts_type
+            referencedTableName: contact_types
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: contacts_info
+            baseColumnNames: resume_id
+            constraintName: fk_contacts_resume
+            referencedTableName: resumes
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 06-create-education-info-table
+      author: student
+      changes:
+        - createTable:
+            tableName: education_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: institution
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: program
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: date
+              - column:
+                  name: end_date
+                  type: date
+              - column:
+                  name: degree
+                  type: varchar(255)
+        - addForeignKeyConstraint:
+            baseTableName: education_info
+            baseColumnNames: resume_id
+            constraintName: fk_education_resume
+            referencedTableName: resumes
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 07-create-work-experience-info-table
+      author: student
+      changes:
+        - createTable:
+            tableName: work_experience_info
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: years
+                  type: int
+              - column:
+                  name: company_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: responsibilities
+                  type: varchar(1000)
+        - addForeignKeyConstraint:
+            baseTableName: work_experience_info
+            baseColumnNames: resume_id
+            constraintName: fk_work_resume
+            referencedTableName: resumes
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 08-create-vacancies-table
+      author: student
+      changes:
+        - createTable:
+            tableName: vacancies
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(2000)
+              - column:
+                  name: category_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: decimal(12,2)
+              - column:
+                  name: exp_from
+                  type: int
+              - column:
+                  name: exp_to
+                  type: int
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: vacancies
+            baseColumnNames: category_id
+            constraintName: fk_vacancies_category
+            referencedTableName: categories
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: vacancies
+            baseColumnNames: author_id
+            constraintName: fk_vacancies_author
+            referencedTableName: users
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 09-create-responded-applicants-table
+      author: student
+      changes:
+        - createTable:
+            tableName: responded_applicants
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vacancy_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: confirmation
+                  type: boolean
+        - addForeignKeyConstraint:
+            baseTableName: responded_applicants
+            baseColumnNames: resume_id
+            constraintName: fk_response_resume
+            referencedTableName: resumes
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: responded_applicants
+            baseColumnNames: vacancy_id
+            constraintName: fk_response_vacancy
+            referencedTableName: vacancies
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 10-create-messages-table
+      author: student
+      changes:
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: responded_applicants
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: messages
+            baseColumnNames: responded_applicants
+            constraintName: fk_messages_response
+            referencedTableName: responded_applicants
+            referencedColumnNames: id
+========== FILE: ./src/main/resources/db/changelog/master.yaml ==========
+databaseChangeLog:
+  - include:
+      file: db/changelog/initial/01_create_tables.yaml
+  - include:
+      file: db/changelog/security/02_security_tables.yaml
+  - include:
+      file: db/changelog/security/03_security_data.yaml
+========== FILE: ./src/main/resources/db/changelog/security/02_security_tables.yaml ==========
+databaseChangeLog:
+  - changeSet:
+      id: 11-create-authorities-table
+      author: student
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: authority
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 12-create-roles-table
+      author: student
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: roles
+            baseColumnNames: authority_id
+            constraintName: fk_roles_authority
+            referencedTableName: authorities
+            referencedColumnNames: id
+
+  - changeSet:
+      id: 13-add-security-columns-to-users
+      author: student
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: int
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: role_id
+            constraintName: fk_users_role
+            referencedTableName: roles
+            referencedColumnNames: id
+========== FILE: ./src/main/resources/db/changelog/security/03_security_data.yaml ==========
+databaseChangeLog:
+  - changeSet:
+      id: 14-insert-authorities
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into authorities(authority)
+              values ('FULL'), ('READ_ONLY');
+
+  - changeSet:
+      id: 15-insert-roles
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into roles(role, authority_id)
+              values
+              ('EMPLOYER', (select id from authorities where authority = 'FULL')),
+              ('APPLICANT', (select id from authorities where authority = 'READ_ONLY'));
+
+  - changeSet:
+      id: 16-update-existing-users-security
+      author: student
+      changes:
+        - sql:
+            sql: |
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'EMPLOYER')
+              where email = 'company@mail.com';
+
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'APPLICANT')
+              where email = 'ivan@mail.com';
+
+              update users
+              set enabled = true,
+                  role_id = (select id from roles where role = 'APPLICANT')
+              where email = 'aigerim@mail.com';
+========== FILE: ./src/main/resources/old_schema.sql ==========
+CREATE TABLE IF NOT EXISTS users
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255),
+    age INT,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(55) NOT NULL,
+    avatar VARCHAR(255),
+    account_type VARCHAR(50) NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS categories
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    parent_id INT,
+    CONSTRAINT fk_categories_parent FOREIGN KEY (parent_id) REFERENCES categories(id)
+    );
+
+CREATE TABLE IF NOT EXISTS resumes
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    applicant_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    category_id INT NOT NULL,
+    salary DECIMAL(12,2),
+    is_active BOOLEAN NOT NULL,
+    created_date TIMESTAMP NOT NULL,
+    update_time TIMESTAMP NOT NULL,
+    CONSTRAINT fk_resumes_applicant FOREIGN KEY (applicant_id) REFERENCES users(id),
+    CONSTRAINT fk_resumes_category FOREIGN KEY (category_id) REFERENCES categories(id)
+    );
+
+CREATE TABLE IF NOT EXISTS contact_types
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(255) NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS contacts_info
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type_id INT NOT NULL,
+    resume_id INT NOT NULL,
+    contact_value VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_contacts_type FOREIGN KEY (type_id) REFERENCES contact_types(id),
+    CONSTRAINT fk_contacts_resume FOREIGN KEY (resume_id) REFERENCES resumes(id)
+    );
+
+CREATE TABLE IF NOT EXISTS education_info
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    resume_id INT NOT NULL,
+    institution VARCHAR(255) NOT NULL,
+    program VARCHAR(255) NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    degree VARCHAR(255),
+    CONSTRAINT fk_education_resume FOREIGN KEY (resume_id) REFERENCES resumes(id)
+    );
+
+CREATE TABLE IF NOT EXISTS work_experience_info
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    resume_id INT NOT NULL,
+    years INT,
+    company_name VARCHAR(255) NOT NULL,
+    position VARCHAR(255) NOT NULL,
+    responsibilities VARCHAR(1000),
+    CONSTRAINT fk_work_resume FOREIGN KEY (resume_id) REFERENCES resumes(id)
+    );
+
+CREATE TABLE IF NOT EXISTS vacancies
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(2000),
+    category_id INT NOT NULL,
+    salary DECIMAL(12,2),
+    exp_from INT,
+    exp_to INT,
+    is_active BOOLEAN NOT NULL,
+    author_id INT NOT NULL,
+    created_date TIMESTAMP NOT NULL,
+    update_time TIMESTAMP NOT NULL,
+    CONSTRAINT fk_vacancies_category FOREIGN KEY (category_id) REFERENCES categories(id),
+    CONSTRAINT fk_vacancies_author FOREIGN KEY (author_id) REFERENCES users(id)
+    );
+
+CREATE TABLE IF NOT EXISTS responded_applicants
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    resume_id INT NOT NULL,
+    vacancy_id INT NOT NULL,
+    confirmation BOOLEAN,
+    CONSTRAINT fk_response_resume FOREIGN KEY (resume_id) REFERENCES resumes(id),
+    CONSTRAINT fk_response_vacancy FOREIGN KEY (vacancy_id) REFERENCES vacancies(id)
+    );
+
+CREATE TABLE IF NOT EXISTS messages
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    responded_applicants INT NOT NULL,
+    content VARCHAR(2000) NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+    CONSTRAINT fk_messages_response FOREIGN KEY (responded_applicants) REFERENCES responded_applicants(id)
+    );
+========== FILE: ./src/main/resources/static/css/style.css ==========
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
+
+.container {
+    width: 1100px;
+    max-width: calc(100% - 40px);
+    margin: 0 auto;
+    padding: 20px 0 40px;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #dcdfe3;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #1f4b99;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #eef4ff;
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    background: #dce8ff;
+}
+
+h1,
+h2,
+h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+p {
+    margin: 8px 0;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.card a {
+    color: #1f4b99;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+.filter-form {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-form select,
+.filter-form button,
+form input,
+form select,
+form textarea,
+form button {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #c8cdd4;
+    font-size: 14px;
+}
+
+form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form button,
+.filter-form button,
+.btn {
+    background: #1f4b99;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+form button:hover,
+.filter-form button:hover,
+.btn:hover {
+    background: #163a78;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.profile-box {
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.chat-box {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+
+.message {
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.message:last-child {
+    border-bottom: none;
+}
+
+small {
+    color: #666;
+}
+
+form div[th\\:errors],
+.error-text {
+    color: #c62828;
+    font-size: 13px;
+    margin-top: -4px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+a:focus {
+    outline: 2px solid #8bb5ff;
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: calc(100% - 20px);
+    }
+
+    .nav,
+    .actions,
+    .filter-form {
+        flex-direction: column;
+    }
+
+    .nav a,
+    .btn,
+    .filter-form button {
+        width: 100%;
+        text-align: center;
+    }
+}
+========== FILE: ./src/main/resources/templates/chat.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Чат</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Чат по отклику <span th:text="${responseId}">0</span></h1>
+
+    <div class="actions">
+        <a class="btn" href="javascript:history.back()">Назад</a>
+        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
+    </div>
+
+    <div class="chat-box">
+        <div class="message" th:each="message : ${messages}">
+            <p th:text="${message.content}">Message</p>
+            <small th:text="${message.timestamp}">time</small>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/create-resume.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать резюме</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Создать резюме</h1>
+
+    <form method="post" th:action="@{/resumes/create}" th:object="${resumeDto}">
+        <input type="text" th:field="*{name}" placeholder="Название">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <select th:field="*{categoryId}">
+            <option value="">Выберите категорию</option>
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+        <div th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+
+        <input type="number" step="0.01" th:field="*{salary}" placeholder="Зарплата">
+        <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
+
+        <select th:field="*{isActive}">
+            <option th:value="true">true</option>
+            <option th:value="false">false</option>
+        </select>
+
+        <button type="submit">Создать</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/resumes}">Назад к резюме</a>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/create-vacancy.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать вакансию</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Создать вакансию</h1>
+
+    <form method="post" th:action="@{/vacancies/create}" th:object="${vacancyDto}">
+        <input type="text" th:field="*{name}" placeholder="Название">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <textarea th:field="*{description}" placeholder="Описание"></textarea>
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+        <select th:field="*{categoryId}">
+            <option value="">Выберите категорию</option>
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+        <div th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+
+        <input type="number" step="0.01" th:field="*{salary}" placeholder="Зарплата">
+        <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
+
+        <input type="number" th:field="*{expFrom}" placeholder="Опыт от">
+        <div th:if="${#fields.hasErrors('expFrom')}" th:errors="*{expFrom}"></div>
+
+        <input type="number" th:field="*{expTo}" placeholder="Опыт до">
+        <div th:if="${#fields.hasErrors('expTo')}" th:errors="*{expTo}"></div>
+
+        <select th:field="*{isActive}">
+            <option th:value="true">true</option>
+            <option th:value="false">false</option>
+        </select>
+
+        <button type="submit">Создать</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/vacancies}">Назад к вакансиям</a>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/index.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>JobSearch</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Главная</h1>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/vacancies}">Смотреть вакансии</a>
+        <a class="btn" th:href="@{/resumes}">Смотреть резюме</a>
+        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
+    </div>
+
+    <h2>Актуальные вакансии</h2>
+
+    <div class="cards">
+        <div class="card" th:each="vacancy : ${vacancies}">
+            <h3>
+                <a th:href="@{'/vacancies/' + ${vacancy.id}}" th:text="${vacancy.name}">Vacancy</a>
+            </h3>
+            <p th:text="${vacancy.description}">Description</p>
+            <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+            <p>Опыт: <span th:text="${vacancy.expFrom}">0</span> - <span th:text="${vacancy.expTo}">0</span></p>
+            <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Подробнее</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/login.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Вход</h1>
+
+    <form method="post" th:action="@{/login}">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Пароль">
+        <button type="submit">Войти</button>
+    </form>
+
+    <div th:if="${loginError}" class="error-text" th:text="${loginError}"></div>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/register}">Регистрация</a>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/my-resumes.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои резюме</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Мои резюме</h1>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
+        <a class="btn" th:href="@{/profile}">Назад в профиль</a>
+    </div>
+
+    <div class="cards">
+        <div class="card" th:each="resume : ${resumes}">
+            <h3 th:text="${resume.name}">Resume</h3>
+            <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+            <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Подробнее</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/my-vacancies.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои вакансии</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Мои вакансии</h1>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a class="btn" th:href="@{/profile}">Назад в профиль</a>
+    </div>
+
+    <div class="cards">
+        <div class="card" th:each="vacancy : ${vacancies}">
+            <h3 th:text="${vacancy.name}">Vacancy</h3>
+            <p th:text="${vacancy.description}">Description</p>
+            <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+            <div class="actions">
+                <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Подробнее</a>
+                <a class="btn" th:href="@{'/responses/' + ${vacancy.id}}">Отклики</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/profile.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${user != null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Профиль</h1>
+
+    <div class="profile-box">
+        <p>Имя: <span th:text="${user.name}">name</span></p>
+        <p>Фамилия: <span th:text="${user.surname}">surname</span></p>
+        <p>Возраст: <span th:text="${user.age}">0</span></p>
+        <p>Email: <span th:text="${user.email}">email</span></p>
+        <p>Телефон: <span th:text="${user.phoneNumber}">phone</span></p>
+        <p>Тип аккаунта: <span th:text="${user.accountType}">type</span></p>
+    </div>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
+        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
+    </div>
+
+    <h2>Мои резюме</h2>
+
+    <div class="cards">
+        <div class="card" th:each="resume : ${resumes}">
+            <h3 th:text="${resume.name}">Resume</h3>
+            <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+            <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Открыть</a>
+        </div>
+    </div>
+</div>
+
+<div class="container" th:if="${user == null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+    <h1>Пользователь не найден</h1>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/register.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Регистрация</h1>
+
+    <form method="post" th:action="@{/register}" th:object="${registerDto}">
+        <input type="text" th:field="*{name}" placeholder="Имя">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <input type="text" th:field="*{surname}" placeholder="Фамилия">
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+
+        <input type="number" th:field="*{age}" placeholder="Возраст">
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+        <input type="email" th:field="*{email}" placeholder="Email">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <input type="text" th:field="*{phoneNumber}" placeholder="Телефон">
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+        <input type="password" th:field="*{password}" placeholder="Пароль">
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+        <select th:field="*{accountType}">
+            <option value="APPLICANT">APPLICANT</option>
+            <option value="EMPLOYER">EMPLOYER</option>
+        </select>
+        <div th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}"></div>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/login}">Уже есть аккаунт</a>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/responses.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Отклики</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Отклики</h1>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/my-vacancies}">Назад к моим вакансиям</a>
+    </div>
+
+    <div class="cards">
+        <div class="card" th:each="response : ${responses}">
+            <p>ID отклика: <span th:text="${response.id}">0</span></p>
+            <p>ID резюме: <span th:text="${response.resumeId}">0</span></p>
+            <p>Подтверждение: <span th:text="${response.confirmation}">false</span></p>
+            <a class="btn" th:href="@{'/chat/' + ${response.id}}">Открыть чат</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/resume-details.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали резюме</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${resume != null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1 th:text="${resume.name}">Resume</h1>
+
+    <div class="card">
+        <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+        <p>Активно: <span th:text="${resume.isActive}">true</span></p>
+        <p>Создано: <span th:text="${resume.createdDate}">date</span></p>
+        <p>Обновлено: <span th:text="${resume.updateTime}">date</span></p>
+    </div>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/resumes}">Назад к резюме</a>
+        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+    </div>
+</div>
+
+<div class="container" th:if="${resume == null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/resumes}">Резюме</a>
+    </div>
+    <h1>Резюме не найдено</h1>
+    <a class="btn" th:href="@{/resumes}">Назад</a>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/resumes.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Резюме</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Все резюме</h1>
+
+    <form method="get" th:action="@{/resumes}" class="filter-form">
+        <select name="categoryId">
+            <option value="">Все категории</option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <button type="submit">Фильтр</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
+        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+    </div>
+
+    <div class="cards">
+        <div class="card" th:each="resume : ${resumes}">
+            <h3>
+                <a th:href="@{'/resumes/' + ${resume.id}}" th:text="${resume.name}">Resume</a>
+            </h3>
+            <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+            <p>Обновлено: <span th:text="${resume.updateTime}">date</span></p>
+            <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Подробнее</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/vacancies.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вакансии</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Все вакансии</h1>
+
+    <form method="get" th:action="@{/vacancies}" class="filter-form">
+        <select name="categoryId">
+            <option value="">Все категории</option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <button type="submit">Фильтр</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
+    </div>
+
+    <div class="cards">
+        <div class="card" th:each="vacancy : ${vacancies}">
+            <h3>
+                <a th:href="@{'/vacancies/' + ${vacancy.id}}" th:text="${vacancy.name}">Vacancy</a>
+            </h3>
+            <p th:text="${vacancy.description}">Description</p>
+            <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+            <p>Опыт: <span th:text="${vacancy.expFrom}">0</span> - <span th:text="${vacancy.expTo}">0</span></p>
+            <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Подробнее</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+========== FILE: ./src/main/resources/templates/vacancy-details.html ==========
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали вакансии</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container" th:if="${vacancy != null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/register}">Регистрация</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1 th:text="${vacancy.name}">Vacancy</h1>
+
+    <div class="card">
+        <p th:text="${vacancy.description}">Description</p>
+        <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+        <p>Опыт: <span th:text="${vacancy.expFrom}">0</span> - <span th:text="${vacancy.expTo}">0</span></p>
+        <p>Дата публикации: <span th:text="${vacancy.createdDate}">date</span></p>
+        <p>Дата обновления: <span th:text="${vacancy.updateTime}">date</span></p>
+    </div>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/vacancies}">Назад к вакансиям</a>
+        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a class="btn" th:href="@{'/responses/' + ${vacancy.id}}">Отклики</a>
+    </div>
+</div>
+
+<div class="container" th:if="${vacancy == null}">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+    </div>
+    <h1>Вакансия не найдена</h1>
+    <a class="btn" th:href="@{/vacancies}">Назад</a>
+</div>
+</body>
+</html>

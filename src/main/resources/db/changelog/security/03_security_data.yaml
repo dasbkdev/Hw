@@ -27,15 +27,18 @@ databaseChangeLog:
             sql: |
               update users
               set enabled = true,
+                  password = '$2b$12$P.ErWV0ZqEShzC9F3Dk8kO9OVVCu0Q6lLDScQtjuBcteX.GB207LC',
                   role_id = (select id from roles where role = 'EMPLOYER')
               where email = 'company@mail.com';
 
               update users
               set enabled = true,
+                  password = '$2b$12$TZGGPsCqyUP./AYkSxl5eO4gnH0zX7tFMpqWYVvYLy/ba0mikFJ2u',
                   role_id = (select id from roles where role = 'APPLICANT')
               where email = 'ivan@mail.com';
 
               update users
               set enabled = true,
+                  password = '$2b$12$ut2DOPHp.P9R6z1BRM8fvegc0aMezZrkcsiy2OzF7MXa2w1KOshq2',
                   role_id = (select id from roles where role = 'APPLICANT')
               where email = 'aigerim@mail.com';

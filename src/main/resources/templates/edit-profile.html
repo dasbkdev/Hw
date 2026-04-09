@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать профиль</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/profile}">Профиль</a>
+        <a th:href="@{/login}">Вход</a>
+    </div>
+
+    <h1>Редактировать профиль</h1>
+
+    <form method="post" th:action="@{/profile/edit}" th:object="${editProfileDto}">
+        <input type="text" th:field="*{name}" placeholder="Имя">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <input type="text" th:field="*{surname}" placeholder="Фамилия">
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+
+        <input type="number" th:field="*{age}" placeholder="Возраст">
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+
+        <input type="text" th:field="*{phoneNumber}" placeholder="Телефон">
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/profile}">Назад в профиль</a>
+    </div>
+</div>
+</body>
+</html>

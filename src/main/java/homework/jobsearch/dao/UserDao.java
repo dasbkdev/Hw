@@ -84,4 +84,14 @@ public class UserDao {
                 role
         );
     }
+
+    public void update(Long id, String name, String surname, Integer age, String phoneNumber) {
+        String sql = """
+                update users
+                set name = ?, surname = ?, age = ?, phone_number = ?
+                where id = ?
+                """;
+        jdbcTemplate.update(sql, name, surname, age, phoneNumber, id);
+    }
+
 }

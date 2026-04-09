@@ -26,7 +26,6 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-
         userService.register(registerDto);
         return "redirect:/login";
     }

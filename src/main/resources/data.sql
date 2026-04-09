@@ -1,8 +1,8 @@
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, account_type)
 VALUES
-    ('Mega', 'Soft', 10, 'company@mail.com', '1234', '+996700000001', 'default-avatar.png', 'EMPLOYER'),
-    ('Ivan', 'Ivanov', 24, 'ivan@mail.com', '1234', '+996700000002', 'default-avatar.png', 'APPLICANT'),
-    ('Aigerim', 'Asanova', 22, 'aigerim@mail.com', '1234', '+996700000003', 'default-avatar.png', 'APPLICANT');
+    ('Mega', 'Soft', 10, 'company@mail.com', '$2b$12$P.ErWV0ZqEShzC9F3Dk8kO9OVVCu0Q6lLDScQtjuBcteX.GB207LC', '+996700000001', 'default-avatar.png', 'EMPLOYER'),
+    ('Ivan', 'Ivanov', 24, 'ivan@mail.com', '$2b$12$TZGGPsCqyUP./AYkSxl5eO4gnH0zX7tFMpqWYVvYLy/ba0mikFJ2u', '+996700000002', 'default-avatar.png', 'APPLICANT'),
+    ('Aigerim', 'Asanova', 22, 'aigerim@mail.com', '$2b$12$ut2DOPHp.P9R6z1BRM8fvegc0aMezZrkcsiy2OzF7MXa2w1KOshq2', '+996700000003', 'default-avatar.png', 'APPLICANT');
 
 INSERT INTO categories (name, parent_id)
 VALUES
