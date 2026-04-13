@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Создать вакансию</title>
+    <title>Редактировать вакансию</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -11,36 +11,35 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
         <a th:href="@{/my-vacancies}">Мои вакансии</a>
         <a th:href="@{/logout}">Выйти</a>
     </div>
 
-    <h1>Создать вакансию</h1>
+    <h1>Редактировать вакансию</h1>
 
-    <form method="post" th:action="@{/vacancies/create}" th:object="${vacancyDto}">
+    <form method="post" th:action="@{'/vacancies/' + ${vacancyId} + '/edit'}" th:object="${vacancyDto}">
         <input type="text" th:field="*{name}" placeholder="Название">
-        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-text"></div>
 
         <textarea th:field="*{description}" placeholder="Описание"></textarea>
-        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-text"></div>
 
         <select th:field="*{categoryId}">
             <option value="">Выберите категорию</option>
             <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
         </select>
-        <div th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></div>
+        <div th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="error-text"></div>
 
         <input type="number" step="0.01" th:field="*{salary}" placeholder="Зарплата">
-        <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
+        <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error-text"></div>
 
         <input type="number" th:field="*{expFrom}" placeholder="Опыт от (лет)">
-        <div th:if="${#fields.hasErrors('expFrom')}" th:errors="*{expFrom}"></div>
+        <div th:if="${#fields.hasErrors('expFrom')}" th:errors="*{expFrom}" class="error-text"></div>
 
         <input type="number" th:field="*{expTo}" placeholder="Опыт до (лет)">
-        <div th:if="${#fields.hasErrors('expTo')}" th:errors="*{expTo}"></div>
+        <div th:if="${#fields.hasErrors('expTo')}" th:errors="*{expTo}" class="error-text"></div>
 
-        <button type="submit">Создать</button>
+        <button type="submit">Сохранить</button>
     </form>
 
     <div class="actions">

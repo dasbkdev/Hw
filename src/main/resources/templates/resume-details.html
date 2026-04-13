@@ -11,35 +11,31 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
-        <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:if="${isAuthenticated}" th:href="@{/profile}">Профиль</a>
+        <a th:if="${isEmployer}" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:if="${isEmployer}" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:if="${isApplicant}" th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:if="${isApplicant}" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:if="${!isAuthenticated}" th:href="@{/register}">Регистрация</a>
+        <a th:if="${!isAuthenticated}" th:href="@{/login}">Войти</a>
+        <a th:if="${isAuthenticated}" th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1 th:text="${resume.name}">Resume</h1>
 
     <div class="card">
         <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
-        <p>Активно: <span th:text="${resume.isActive}">true</span></p>
         <p>Создано: <span th:text="${resume.createdDate}">date</span></p>
         <p>Обновлено: <span th:text="${resume.updateTime}">date</span></p>
     </div>
 
     <div class="actions">
         <a class="btn" th:href="@{/resumes}">Назад к резюме</a>
-        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:if="${isApplicant}" class="btn" th:href="@{/my-resumes}">Мои резюме</a>
     </div>
 </div>
 
 <div class="container" th:if="${resume == null}">
-    <div class="nav">
-        <a th:href="@{/}">Главная</a>
-        <a th:href="@{/resumes}">Резюме</a>
-    </div>
     <h1>Резюме не найдено</h1>
     <a class="btn" th:href="@{/resumes}">Назад</a>
 </div>

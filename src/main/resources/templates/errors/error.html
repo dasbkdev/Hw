@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <a th:href="@{/}">Главная</a>
+        <a th:href="@{/vacancies}">Вакансии</a>
+        <a th:href="@{/resumes}">Резюме</a>
+    </div>
+
+    <h1 th:text="${status}">Ошибка</h1>
+    <h2 th:text="${reason}">Описание ошибки</h2>
+
+    <div th:if="${details != null}" class="card">
+        <p>Хост: <code th:text="${details.serverName}"></code></p>
+        <p>URI: <code th:text="${details.requestURI}"></code></p>
+        <p>Порт: <code th:text="${details.serverPort}"></code></p>
+    </div>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/}">На главную</a>
+    </div>
+</div>
+</body>
+</html>

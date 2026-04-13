@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/security/02_security_tables.yaml
   - include:
       file: db/changelog/security/03_security_data.yaml
+  - include:
+      file: db/changelog/data/04_test_data.yaml

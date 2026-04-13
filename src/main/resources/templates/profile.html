@@ -11,18 +11,20 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
         <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:if="${isEmployer}" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:if="${isEmployer}" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:if="${isApplicant}" th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:if="${isApplicant}" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1>Профиль</h1>
 
     <div class="profile-box">
+        <img th:src="${user.avatar != null and user.avatar != 'default-avatar.png'} ? @{'/avatars/' + ${user.avatar}} : @{/default-avatar.png}"
+             alt="Фото профиля" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+
         <p>Имя: <span th:text="${user.name}">name</span></p>
         <p>Фамилия: <span th:text="${user.surname}">surname</span></p>
         <p>Возраст: <span th:text="${user.age}">0</span></p>
@@ -32,30 +34,44 @@
     </div>
 
     <div class="actions">
-        <a class="btn" th:href="@{/my-resumes}">Мои резюме</a>
-        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
-        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a class="btn" th:href="@{/profile/edit}">Редактировать профиль</a>
+        <a th:if="${isApplicant}" class="btn" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:if="${isEmployer}" class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
     </div>
 
-    <h2>Мои резюме</h2>
+    <div th:if="${resumes != null and !#lists.isEmpty(resumes)}">
+        <h2>Мои резюме</h2>
+        <div class="cards">
+            <div class="card" th:each="resume : ${resumes}">
+                <h3 th:text="${resume.name}">Resume</h3>
+                <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
+                <div class="actions">
+                    <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Открыть</a>
+                    <a class="btn" th:href="@{'/resumes/' + ${resume.id} + '/edit'}">Редактировать</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="cards">
-        <div class="card" th:each="resume : ${resumes}">
-            <h3 th:text="${resume.name}">Resume</h3>
-            <p>Зарплата: <span th:text="${resume.salary}">0</span></p>
-            <a class="btn" th:href="@{'/resumes/' + ${resume.id}}">Открыть</a>
+    <div th:if="${vacancies != null and !#lists.isEmpty(vacancies)}">
+        <h2>Мои вакансии</h2>
+        <div class="cards">
+            <div class="card" th:each="vacancy : ${vacancies}">
+                <h3 th:text="${vacancy.name}">Vacancy</h3>
+                <p th:text="${vacancy.description}">Description</p>
+                <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+                <div class="actions">
+                    <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Открыть</a>
+                    <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id} + '/edit'}">Редактировать</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container" th:if="${user == null}">
-    <div class="nav">
-        <a th:href="@{/}">Главная</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
-    </div>
     <h1>Пользователь не найден</h1>
+    <a class="btn" th:href="@{/login}">Войти</a>
 </div>
 </body>
 </html>

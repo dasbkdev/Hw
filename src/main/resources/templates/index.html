@@ -11,13 +11,14 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
-        <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:if="${isAuthenticated}" th:href="@{/profile}">Профиль</a>
+        <a th:if="${isEmployer}" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:if="${isEmployer}" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:if="${isApplicant}" th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:if="${isApplicant}" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:if="${!isAuthenticated}" th:href="@{/register}">Регистрация</a>
+        <a th:if="${!isAuthenticated}" th:href="@{/login}">Войти</a>
+        <a th:if="${isAuthenticated}" th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1>Главная</h1>
@@ -25,8 +26,6 @@
     <div class="actions">
         <a class="btn" th:href="@{/vacancies}">Смотреть вакансии</a>
         <a class="btn" th:href="@{/resumes}">Смотреть резюме</a>
-        <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a class="btn" th:href="@{/resumes/create}">Создать резюме</a>
     </div>
 
     <h2>Актуальные вакансии</h2>
@@ -38,7 +37,7 @@
             </h3>
             <p th:text="${vacancy.description}">Description</p>
             <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
-            <p>Опыт: <span th:text="${vacancy.expFrom}">0</span> - <span th:text="${vacancy.expTo}">0</span></p>
+            <p>Опыт: <span th:text="${vacancy.expFrom}">0</span> - <span th:text="${vacancy.expTo}">0</span> лет</p>
             <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Подробнее</a>
         </div>
     </div>

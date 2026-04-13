@@ -50,7 +50,6 @@ public class UserDao {
                 insert into users(name, surname, age, email, password, phone_number, avatar, account_type)
                 values (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
-
         jdbcTemplate.update(
                 sql,
                 user.getName(),
@@ -69,7 +68,6 @@ public class UserDao {
                 insert into users(name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
                 values (?, ?, ?, ?, ?, ?, ?, ?, ?, (select id from roles where role = ?))
                 """;
-
         jdbcTemplate.update(
                 sql,
                 user.getName(),
@@ -85,13 +83,13 @@ public class UserDao {
         );
     }
 
-    public void update(Long id, String name, String surname, Integer age, String phoneNumber) {
+
+    public void update(Long id, String name, String surname, Integer age, String phoneNumber, String avatar) {
         String sql = """
                 update users
-                set name = ?, surname = ?, age = ?, phone_number = ?
+                set name = ?, surname = ?, age = ?, phone_number = ?, avatar = ?
                 where id = ?
                 """;
-        jdbcTemplate.update(sql, name, surname, age, phoneNumber, id);
+        jdbcTemplate.update(sql, name, surname, age, phoneNumber, avatar, id);
     }
-
 }

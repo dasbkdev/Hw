@@ -20,25 +20,33 @@ databaseChangeLog:
               ('APPLICANT', (select id from authorities where authority = 'READ_ONLY'));
 
   - changeSet:
-      id: 16-update-existing-users-security
+      id: 16-insert-test-data
       author: student
       changes:
         - sql:
             sql: |
-              update users
-              set enabled = true,
-                  password = '$2b$12$P.ErWV0ZqEShzC9F3Dk8kO9OVVCu0Q6lLDScQtjuBcteX.GB207LC',
-                  role_id = (select id from roles where role = 'EMPLOYER')
-              where email = 'company@mail.com';
+              insert into users(name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+              values
+              ('Mega', 'Soft', 10, 'company@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000001', 'default-avatar.png', 'EMPLOYER', true, (select id from roles where role = 'EMPLOYER')),
+              ('Ivan', 'Ivanov', 24, 'ivan@mail.com', '$2b$12$ddLGLdXjv9mYEWy/o82qm.RkkXkc0Vc7keTig69m.UVPfVlwG//mW', '+996700000002', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Aigerim', 'Asanova', 22, 'aigerim@mail.com', '$2b$12$HtZaJdfvbydqd/3rCExYCefaJluGmhWZd5vqFcdvGpwPcf2XPnj.O', '+996700000003', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT'));
 
-              update users
-              set enabled = true,
-                  password = '$2b$12$TZGGPsCqyUP./AYkSxl5eO4gnH0zX7tFMpqWYVvYLy/ba0mikFJ2u',
-                  role_id = (select id from roles where role = 'APPLICANT')
-              where email = 'ivan@mail.com';
+              insert into categories(name, parent_id)
+              values
+              ('IT', null),
+              ('Backend', 1),
+              ('Frontend', 1),
+              ('Design', null);
 
-              update users
-              set enabled = true,
-                  password = '$2b$12$ut2DOPHp.P9R6z1BRM8fvegc0aMezZrkcsiy2OzF7MXa2w1KOshq2',
-                  role_id = (select id from roles where role = 'APPLICANT')
-              where email = 'aigerim@mail.com';
+              insert into contact_types(type)
+              values ('EMAIL'), ('PHONE'), ('TELEGRAM'), ('LINKEDIN');
+
+              insert into vacancies(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)
+              values
+              ('Java Developer', 'Spring Boot developer needed', 2, 100000, 1, 3, true, 1, current_timestamp, current_timestamp),
+              ('Frontend Developer', 'JavaScript developer needed', 3, 90000, 1, 2, true, 1, current_timestamp, current_timestamp);
+
+              insert into resumes(applicant_id, name, category_id, salary, is_active, created_date, update_time)
+              values
+              (2, 'Java Developer', 2, 80000, true, current_timestamp, current_timestamp),
+              (3, 'Frontend Developer', 3, 70000, true, current_timestamp, current_timestamp);

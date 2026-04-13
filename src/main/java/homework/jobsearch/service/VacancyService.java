@@ -39,10 +39,16 @@ public class VacancyService {
         vacancy.setSalary(dto.getSalary());
         vacancy.setExpFrom(dto.getExpFrom());
         vacancy.setExpTo(dto.getExpTo());
-        vacancy.setIsActive(dto.getIsActive());
+        vacancy.setIsActive(true);
         vacancy.setAuthorId(authorId);
         vacancy.setCreatedDate(LocalDateTime.now());
         vacancy.setUpdateTime(LocalDateTime.now());
         vacancyDao.save(vacancy);
+    }
+
+
+    public void update(Long id, VacancyDto dto) {
+        vacancyDao.update(id, dto.getName(), dto.getDescription(), dto.getCategoryId(),
+                dto.getSalary(), dto.getExpFrom(), dto.getExpTo());
     }
 }

@@ -1,0 +1,79 @@
+databaseChangeLog:
+  - changeSet:
+      id: 17-insert-extra-users
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into users(name, surname, age, email, password, phone_number, avatar, account_type, enabled, role_id)
+              values
+              ('Tech', 'Corp', 5, 'tech@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000010', 'default-avatar.png', 'EMPLOYER', true, (select id from roles where role = 'EMPLOYER')),
+              ('Digital', 'Agency', 3, 'digital@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000011', 'default-avatar.png', 'EMPLOYER', true, (select id from roles where role = 'EMPLOYER')),
+              ('StartUp', 'Inc', 2, 'startup@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000012', 'default-avatar.png', 'EMPLOYER', true, (select id from roles where role = 'EMPLOYER')),
+              ('Big', 'Solutions', 8, 'big@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000013', 'default-avatar.png', 'EMPLOYER', true, (select id from roles where role = 'EMPLOYER')),
+              ('Amir', 'Sultanov', 25, 'amir@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000014', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Dina', 'Bekova', 23, 'dina@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000015', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Ruslan', 'Omarov', 27, 'ruslan@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000016', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Zarina', 'Nurova', 24, 'zarina@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000017', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Dastan', 'Aliev', 26, 'dastan@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000018', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Kamila', 'Rysova', 22, 'kamila@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000019', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Timur', 'Isaev', 28, 'timur@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000020', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Asel', 'Djaksybekova', 21, 'asel@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000021', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT')),
+              ('Marat', 'Usenov', 29, 'marat@mail.com', '$2b$12$ToDhfg72fGg2jw1aybbLMeRXixccR5LZaNk3fLtY2nSxmQnfsEjGu', '+996700000022', 'default-avatar.png', 'APPLICANT', true, (select id from roles where role = 'APPLICANT'));
+
+  - changeSet:
+      id: 18-insert-extra-categories
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into categories(name, parent_id) values
+              ('DevOps', 1),
+              ('Mobile', 1),
+              ('QA', 1),
+              ('Data Science', 1),
+              ('Management', null);
+
+  - changeSet:
+      id: 19-insert-vacancies
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into vacancies(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)
+              values
+              ('Senior Java Developer', 'Ищем опытного Java разработчика для работы с микросервисами', 2, 200000, 3, 6, true, (select id from users where email = 'tech@mail.com'), current_timestamp, current_timestamp),
+              ('DevOps Engineer', 'Настройка CI/CD пайплайнов, Docker, Kubernetes', 5, 180000, 2, 5, true, (select id from users where email = 'tech@mail.com'), current_timestamp, current_timestamp),
+              ('React Developer', 'Разработка современных веб приложений на React', 3, 150000, 1, 3, true, (select id from users where email = 'tech@mail.com'), current_timestamp, current_timestamp),
+              ('QA Engineer', 'Автоматизация тестирования на Selenium и JUnit', 7, 120000, 1, 3, true, (select id from users where email = 'digital@mail.com'), current_timestamp, current_timestamp),
+              ('Mobile Developer iOS', 'Разработка iOS приложений на Swift', 6, 170000, 2, 4, true, (select id from users where email = 'digital@mail.com'), current_timestamp, current_timestamp),
+              ('UX/UI Designer', 'Проектирование интерфейсов в Figma', 4, 130000, 1, 3, true, (select id from users where email = 'digital@mail.com'), current_timestamp, current_timestamp),
+              ('Data Scientist', 'Анализ данных, машинное обучение, Python', 8, 220000, 2, 5, true, (select id from users where email = 'startup@mail.com'), current_timestamp, current_timestamp),
+              ('Android Developer', 'Kotlin, Jetpack Compose, MVVM', 6, 160000, 1, 3, true, (select id from users where email = 'startup@mail.com'), current_timestamp, current_timestamp),
+              ('Product Manager', 'Управление продуктом, работа с командой разработки', 9, 190000, 3, 6, true, (select id from users where email = 'startup@mail.com'), current_timestamp, current_timestamp),
+              ('Python Backend Developer', 'Django, FastAPI, PostgreSQL', 2, 155000, 1, 3, true, (select id from users where email = 'big@mail.com'), current_timestamp, current_timestamp),
+              ('System Analyst', 'Анализ бизнес требований, написание ТЗ', 9, 140000, 2, 4, true, (select id from users where email = 'big@mail.com'), current_timestamp, current_timestamp),
+              ('Vue.js Developer', 'Разработка SPA на Vue.js 3', 3, 145000, 1, 3, true, (select id from users where email = 'big@mail.com'), current_timestamp, current_timestamp),
+              ('Junior Java Developer', 'Spring Boot, JPA, REST API — для начинающих', 2, 80000, 0, 1, true, (select id from users where email = 'company@mail.com'), current_timestamp, current_timestamp);
+
+  - changeSet:
+      id: 20-insert-resumes
+      author: student
+      changes:
+        - sql:
+            sql: |
+              insert into resumes(applicant_id, name, category_id, salary, is_active, created_date, update_time)
+              values
+              ((select id from users where email = 'amir@mail.com'), 'Senior Java Developer', 2, 200000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'amir@mail.com'), 'Backend разработчик', 2, 180000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'dina@mail.com'), 'React Developer', 3, 150000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'dina@mail.com'), 'UI Developer', 3, 130000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'ruslan@mail.com'), 'DevOps Engineer', 5, 175000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'zarina@mail.com'), 'QA Engineer', 7, 120000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'dastan@mail.com'), 'iOS Developer', 6, 165000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'kamila@mail.com'), 'UX/UI Designer', 4, 125000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'timur@mail.com'), 'Data Scientist', 8, 215000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'asel@mail.com'), 'Android Developer', 6, 155000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'marat@mail.com'), 'Python Developer', 2, 150000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'ivan@mail.com'), 'Full Stack Developer', 2, 170000, true, current_timestamp, current_timestamp),
+              ((select id from users where email = 'aigerim@mail.com'), 'Vue.js Developer', 3, 140000, true, current_timestamp, current_timestamp);

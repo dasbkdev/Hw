@@ -11,32 +11,37 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
         <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:if="${isEmployer}" th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:if="${isEmployer}" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:if="${isApplicant}" th:href="@{/resumes/create}">Создать резюме</a>
+        <a th:if="${isApplicant}" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1>Редактировать профиль</h1>
 
-    <form method="post" th:action="@{/profile/edit}" th:object="${editProfileDto}">
+    <form method="post" th:action="@{/profile/edit}" th:object="${editProfileDto}" enctype="multipart/form-data">
         <input type="text" th:field="*{name}" placeholder="Имя">
-        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-text"></div>
 
         <input type="text" th:field="*{surname}" placeholder="Фамилия">
-        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-text"></div>
 
         <input type="number" th:field="*{age}" placeholder="Возраст">
-        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="error-text"></div>
 
         <input type="text" th:field="*{phoneNumber}" placeholder="Телефон">
-        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error-text"></div>
+
+        <label>Фото профиля</label>
+        <input type="file" name="avatar" accept="image/*">
 
         <button type="submit">Сохранить</button>
     </form>
 
     <div class="actions">
-        <a class="btn" th:href="@{/profile}">Назад в профиль</a>
+        <a class="btn" th:href="@{/profile}">Назад</a>
     </div>
 </div>
 </body>

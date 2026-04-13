@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +56,15 @@ public class ResumeDao {
                 resume.getCreatedDate(),
                 resume.getUpdateTime()
         );
+    }
+
+
+    public void update(Long id, String name, Long categoryId, BigDecimal salary) {
+        String sql = """
+                update resumes
+                set name = ?, category_id = ?, salary = ?, update_time = ?
+                where id = ?
+                """;
+        jdbcTemplate.update(sql, name, categoryId, salary, LocalDateTime.now(), id);
     }
 }

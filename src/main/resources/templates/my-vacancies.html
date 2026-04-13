@@ -11,20 +11,16 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
         <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:href="@{/vacancies/create}">Создать вакансию</a>
+        <a th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1>Мои вакансии</h1>
 
     <div class="actions">
         <a class="btn" th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a class="btn" th:href="@{/profile}">Назад в профиль</a>
     </div>
 
     <div class="cards">
@@ -32,8 +28,10 @@
             <h3 th:text="${vacancy.name}">Vacancy</h3>
             <p th:text="${vacancy.description}">Description</p>
             <p>Зарплата: <span th:text="${vacancy.salary}">0</span></p>
+
             <div class="actions">
                 <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id}}">Подробнее</a>
+                <a class="btn" th:href="@{'/vacancies/' + ${vacancy.id} + '/edit'}">Редактировать</a>
                 <a class="btn" th:href="@{'/responses/' + ${vacancy.id}}">Отклики</a>
             </div>
         </div>

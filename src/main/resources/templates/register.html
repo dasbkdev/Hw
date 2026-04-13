@@ -11,13 +11,8 @@
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
         <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
-        <a th:href="@{/profile}">Профиль</a>
         <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:href="@{/login}">Войти</a>
     </div>
 
     <h1>Регистрация</h1>
@@ -42,10 +37,9 @@
         <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
         <select th:field="*{accountType}">
-            <option value="APPLICANT">APPLICANT</option>
-            <option value="EMPLOYER">EMPLOYER</option>
+            <option value="APPLICANT">Соискатель</option>
+            <option value="EMPLOYER">Работодатель</option>
         </select>
-        <div th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}"></div>
 
         <button type="submit">Зарегистрироваться</button>
     </form>

@@ -10,21 +10,16 @@
     <div class="nav">
         <a th:href="@{/}">Главная</a>
         <a th:href="@{/vacancies}">Вакансии</a>
-        <a th:href="@{/resumes}">Резюме</a>
-        <a th:href="@{/vacancies/create}">Создать вакансию</a>
-        <a th:href="@{/resumes/create}">Создать резюме</a>
-        <a th:href="@{/my-vacancies}">Мои вакансии</a>
-        <a th:href="@{/my-resumes}">Мои резюме</a>
         <a th:href="@{/profile}">Профиль</a>
-        <a th:href="@{/register}">Регистрация</a>
-        <a th:href="@{/login}">Вход</a>
+        <a th:if="${isEmployer}" th:href="@{/my-vacancies}">Мои вакансии</a>
+        <a th:if="${isApplicant}" th:href="@{/my-resumes}">Мои резюме</a>
+        <a th:href="@{/logout}">Выйти</a>
     </div>
 
     <h1>Чат по отклику <span th:text="${responseId}">0</span></h1>
 
     <div class="actions">
         <a class="btn" href="javascript:history.back()">Назад</a>
-        <a class="btn" th:href="@{/my-vacancies}">Мои вакансии</a>
     </div>
 
     <div class="chat-box">

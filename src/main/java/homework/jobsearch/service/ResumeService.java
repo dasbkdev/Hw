@@ -37,9 +37,14 @@ public class ResumeService {
         resume.setName(dto.getName());
         resume.setCategoryId(dto.getCategoryId());
         resume.setSalary(dto.getSalary());
-        resume.setIsActive(dto.getIsActive());
+        resume.setIsActive(true);
         resume.setCreatedDate(LocalDateTime.now());
         resume.setUpdateTime(LocalDateTime.now());
         resumeDao.save(resume);
+    }
+
+
+    public void update(Long id, ResumeDto dto) {
+        resumeDao.update(id, dto.getName(), dto.getCategoryId(), dto.getSalary());
     }
 }

@@ -1,13 +1,14 @@
 package homework.jobsearch.service;
 
 import homework.jobsearch.dao.UserDao;
+import homework.jobsearch.dto.EditProfileDto;
 import homework.jobsearch.dto.RegisterDto;
 import homework.jobsearch.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import homework.jobsearch.dto.EditProfileDto;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,8 @@ public class UserService {
         }
     }
 
-    public void update(Long id, EditProfileDto dto) {
-        userDao.update(id, dto.getName(), dto.getSurname(), dto.getAge(), dto.getPhoneNumber());
-    }
 
+    public void update(Long id, EditProfileDto dto, String avatar) {
+        userDao.update(id, dto.getName(), dto.getSurname(), dto.getAge(), dto.getPhoneNumber(), avatar);
+    }
 }

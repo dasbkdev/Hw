@@ -4,6 +4,7 @@ import homework.jobsearch.dto.RegisterDto;
 import homework.jobsearch.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,12 +19,18 @@ public class AuthController {
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("registerDto", new RegisterDto());
+        model.addAttribute("isAuthenticated", false);
+        model.addAttribute("isEmployer", false);
+        model.addAttribute("isApplicant", false);
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@Valid RegisterDto registerDto, BindingResult bindingResult) {
+    public String register(@Valid RegisterDto registerDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("isAuthenticated", false);
+            model.addAttribute("isEmployer", false);
+            model.addAttribute("isApplicant", false);
             return "register";
         }
         userService.register(registerDto);
@@ -31,7 +38,10 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("isAuthenticated", false);
+        model.addAttribute("isEmployer", false);
+        model.addAttribute("isApplicant", false);
         return "login";
     }
 }
