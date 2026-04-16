@@ -15,7 +15,7 @@
     <groupId>homework</groupId>
     <artifactId>jobsearch</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jobsearch</name>
+    <n>jobsearch</n>
     <description>jobsearch</description>
 
     <properties>
@@ -40,7 +40,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -62,7 +67,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
 
