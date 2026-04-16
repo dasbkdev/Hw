@@ -59,6 +59,10 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/h2-console/**"
                         ).permitAll()
+                        .requestMatchers("/vacancies/create", "/vacancies/*/edit", "/my-vacancies", "/responses/**")
+                        .hasAuthority("EMPLOYER")
+                        .requestMatchers("/resumes/create", "/resumes/*/edit", "/my-resumes")
+                        .hasAuthority("APPLICANT")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
